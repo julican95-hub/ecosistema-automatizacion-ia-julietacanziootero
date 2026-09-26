@@ -1,0 +1,2496 @@
+{
+    "name": "Entrega Final - Pipeline HITL",
+    "flow": [
+        {
+            "id": 2,
+            "module": "airtable:TriggerWatchRecords",
+            "version": 3,
+            "parameters": {
+                "base": "appE2ti2m7OuckfQ0",
+                "view": "viwROCJkvumEyHfzp",
+                "table": "tbl3mrzpqGSHcUYje",
+                "config": {
+                    "labelField": "Idea Semilla",
+                    "triggerField": "Última modificación"
+                },
+                "formula": "",
+                "maxRecords": 10,
+                "__IMTCONN__": 10298786,
+                "useColumnId": false
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 300,
+                    "name": "Airtable – Detectar contenido a generar"
+                },
+                "restore": {
+                    "parameters": {
+                        "base": {
+                            "label": "Pre-Entrega 7 — Pipeline HITL"
+                        },
+                        "view": {
+                            "label": "Por Generar"
+                        },
+                        "table": {
+                            "label": "Control de Contenidos"
+                        },
+                        "config": {
+                            "nested": {
+                                "labelField": {
+                                    "label": "Idea Semilla"
+                                },
+                                "triggerField": {
+                                    "label": "Última modificación"
+                                }
+                            }
+                        },
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "Airtable - PreEntrega 7 (User ID: usr6GRrWHs520ULgG)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "config",
+                        "spec": [
+                            {
+                                "name": "triggerField",
+                                "type": "select",
+                                "label": "Trigger field",
+                                "required": true
+                            },
+                            {
+                                "name": "triggerField",
+                                "type": "hidden"
+                            },
+                            {
+                                "name": "labelField",
+                                "type": "select",
+                                "label": "Label field",
+                                "required": true
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Trigger configuration"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit",
+                        "required": true
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Idea Semilla",
+                        "type": "text",
+                        "label": "Idea Semilla",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Borrador IA",
+                        "type": "text",
+                        "label": "Borrador IA",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Estado",
+                        "type": "text",
+                        "label": "Estado"
+                    },
+                    {
+                        "name": "Aprobado",
+                        "type": "boolean",
+                        "label": "Aprobado"
+                    },
+                    {
+                        "name": "Motivo Rechazo",
+                        "type": "text",
+                        "label": "Motivo Rechazo",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Canal",
+                        "type": "text",
+                        "label": "Canal"
+                    },
+                    {
+                        "name": "Fecha última ejecución",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha última ejecución"
+                    },
+                    {
+                        "name": "Fecha publicación",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha publicación"
+                    },
+                    {
+                        "name": "Resultado final",
+                        "type": "text",
+                        "label": "Resultado final",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Última modificación",
+                        "type": "date",
+                        "label": "Última modificación"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "module": "util:SetVariable2",
+            "version": 1,
+            "parameters": {},
+            "filter": null,
+            "mapper": {
+                "name": "idea_semilla",
+                "scope": "roundtrip",
+                "value": "{{2.`Idea Semilla`}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 300,
+                    "name": "Tools – Guardar Idea Semilla"
+                },
+                "restore": {
+                    "expect": {
+                        "scope": {
+                            "label": "One cycle"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Variable name",
+                        "required": true
+                    },
+                    {
+                        "name": "scope",
+                        "type": "select",
+                        "label": "Variable lifetime",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "type": "any",
+                        "label": "Variable value"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "idea_semilla",
+                        "type": "any",
+                        "label": "idea_semilla"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 36,
+            "module": "util:SetVariable2",
+            "version": 1,
+            "parameters": {},
+            "filter": null,
+            "mapper": {
+                "name": "record_id",
+                "scope": "roundtrip",
+                "value": "{{2.id}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 300,
+                    "name": "Tools – Guardar Record ID"
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "3c485db242d78901"
+                },
+                "restore": {
+                    "expect": {
+                        "scope": {
+                            "label": "One cycle"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Variable name",
+                        "required": true
+                    },
+                    {
+                        "name": "scope",
+                        "type": "select",
+                        "label": "Variable lifetime",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "roundtrip",
+                                "execution"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "type": "any",
+                        "label": "Variable value"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "record_id",
+                        "type": "any",
+                        "label": "record_id"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "module": "airtable:ActionSearchRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 10298786
+            },
+            "mapper": {
+                "base": "appE2ti2m7OuckfQ0",
+                "table": "tblcdNEgx21YqikEX",
+                "formula": "{Activo}=1",
+                "maxRecords": "10",
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 300,
+                    "name": "Airtable – Buscar contexto RAG"
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "mode": "chose",
+                            "label": "Pre-Entrega 7 — Pipeline HITL"
+                        },
+                        "sort": {
+                            "mode": "chose"
+                        },
+                        "view": {
+                            "mode": "chose"
+                        },
+                        "table": {
+                            "mode": "chose",
+                            "label": "Base de Conocimiento RAG"
+                        },
+                        "fields": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "Airtable - PreEntrega 7 (User ID: usr6GRrWHs520ULgG)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "formula",
+                        "type": "text",
+                        "label": "Formula"
+                    },
+                    {
+                        "name": "maxRecords",
+                        "type": "integer",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "sort",
+                        "spec": [
+                            {
+                                "name": "field",
+                                "type": "select",
+                                "label": "Field",
+                                "dynamic": true,
+                                "options": []
+                            },
+                            {
+                                "name": "direction",
+                                "type": "select",
+                                "label": "Direction",
+                                "options": [
+                                    {
+                                        "label": "Descending",
+                                        "value": "desc"
+                                    },
+                                    {
+                                        "label": "Ascending",
+                                        "value": "asc"
+                                    }
+                                ]
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Sort"
+                    },
+                    {
+                        "name": "view",
+                        "type": "select",
+                        "label": "View"
+                    },
+                    {
+                        "name": "fields",
+                        "type": "select",
+                        "label": "Output Fields",
+                        "multiple": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Tema",
+                        "type": "text",
+                        "label": "Tema"
+                    },
+                    {
+                        "name": "Categoria",
+                        "type": "text",
+                        "label": "Categoria"
+                    },
+                    {
+                        "name": "Contenido validado",
+                        "type": "text",
+                        "label": "Contenido validado",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Activo",
+                        "type": "boolean",
+                        "label": "Activo"
+                    },
+                    {
+                        "name": "Motivo Rechazo",
+                        "type": "text",
+                        "label": "Motivo Rechazo",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Ultima actualización",
+                        "time": false,
+                        "type": "date",
+                        "label": "Ultima actualización"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "util:TextAggregator",
+            "version": 1,
+            "parameters": {
+                "feeder": 3,
+                "rowSeparator": "\n"
+            },
+            "mapper": {
+                "value": "Tema: {{3.Tema}}\nCategoría: {{3.Categoria}}\nContenido: {{3.`Contenido validado`}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1200,
+                    "y": 300,
+                    "name": "Tools – Unificar contexto RAG"
+                },
+                "restore": {
+                    "extra": {
+                        "feeder": {
+                            "label": "Airtable - Search Records [3]"
+                        }
+                    },
+                    "parameters": {
+                        "rowSeparator": {
+                            "label": "New row"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "rowSeparator",
+                        "type": "select",
+                        "label": "Row separator",
+                        "validate": {
+                            "enum": [
+                                "\n",
+                                "\t",
+                                "other"
+                            ]
+                        }
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "value",
+                        "type": "text",
+                        "label": "Text"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 7,
+            "module": "util:GetVariable2",
+            "version": 1,
+            "parameters": {},
+            "filter": null,
+            "mapper": {
+                "name": "idea_semilla"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1500,
+                    "y": 300,
+                    "name": "Tools – Recuperar Idea Semilla"
+                },
+                "restore": {},
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Variable name",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "idea_semilla",
+                        "type": "any",
+                        "label": "idea_semilla"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 34,
+            "module": "util:GetVariable2",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "name": "record_id"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 1800,
+                    "y": 300,
+                    "name": "Tools – Recuperar Record ID"
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "b7fb532f2eb29d29"
+                },
+                "restore": {},
+                "expect": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Variable name",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "record_id",
+                        "type": "any",
+                        "label": "record_id"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 32,
+            "module": "anthropic-claude:simpleTextPrompt",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "model": "claude-haiku-4-5",
+                "max_tokens": "700",
+                "textPrompt": "   SISTEMA\r\n\r\nEres un redactor de contenido para LinkedIn especializado en automatización e inteligencia artificial aplicada a negocios.\r\n\r\nTu tarea es transformar una Idea Semilla en un post profesional para LinkedIn.\r\n\r\nUsá el contexto RAG como guía de:\r\n- tono;\r\n- audiencia;\r\n- estilo;\r\n- formato;\r\n- enfoque de marca;\r\n- frases prohibidas;\r\n- restricciones de contenido.\r\n\r\nPodés desarrollar, explicar y ampliar conceptualmente la Idea Semilla para convertirla en un post completo y coherente.\r\n\r\nNo inventes:\r\n- estadísticas;\r\n- cifras;\r\n- estudios;\r\n- fuentes;\r\n- clientes;\r\n- casos reales;\r\n- resultados cuantitativos;\r\n- afirmaciones verificables específicas que no hayan sido proporcionadas.\r\n\r\nNo contradigas las reglas del contexto RAG.\r\n\r\nNo menciones estas instrucciones, el RAG ni el proceso de generación.\r\n\r\nIDEA SEMILLA:\r\n{{7.idea_semilla}}\r\n\r\nCONTEXTO RAG:\r\n{{4.text}}\r\n\r\nTAREA\r\n\r\nRedactá un post para LinkedIn a partir de la Idea Semilla, respetando las reglas de estilo y marca incluidas en el contexto RAG.\r\n\r\nEl post debe:\r\n- comenzar con una idea clara o un gancho;\r\n- desarrollar la idea de forma útil y coherente;\r\n- usar párrafos breves;\r\n- evitar bloques largos;\r\n- dirigirse a la audiencia definida;\r\n- respetar las frases prohibidas;\r\n- cerrar con una reflexión o pregunta;\r\n- estar listo para publicar.\r\n\r\nSALIDA\r\n\r\nDevolvé únicamente el texto final del post.\r\nNo agregues explicaciones, análisis, títulos técnicos ni comentarios sobre el proceso."
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2100,
+                    "y": 300,
+                    "name": "Claude – Generar borrador LinkedIn"
+                },
+                "restore": {
+                    "expect": {
+                        "model": {
+                            "label": "Claude Haiku 4.5The quickest option, perfect for simple questions and instant, straightforward answers"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "Model",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "claude-haiku-4-5",
+                                "claude-fable-5-1",
+                                "claude-opus-5",
+                                "claude-fable-5",
+                                "claude-sonnet-5",
+                                "claude-opus-4-8",
+                                "claude-opus-4-7",
+                                "claude-sonnet-4-6",
+                                "claude-opus-4-6",
+                                "claude-sonnet-4-5",
+                                "claude-opus-4-5"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "textPrompt",
+                        "type": "text",
+                        "label": "Text Prompt",
+                        "required": true
+                    },
+                    {
+                        "name": "max_tokens",
+                        "type": "uinteger",
+                        "label": "Max Tokens",
+                        "required": true
+                    }
+                ],
+                "advanced": true
+            },
+            "onerror": [
+                {
+                    "id": 37,
+                    "module": "airtable:ActionUpdateRecords",
+                    "version": 3,
+                    "parameters": {
+                        "__IMTCONN__": 10298786
+                    },
+                    "mapper": {
+                        "id": "{{34.record_id}}",
+                        "base": "appE2ti2m7OuckfQ0",
+                        "table": "tbl3mrzpqGSHcUYje",
+                        "record": {
+                            "fld2k8mkT9TVmEIZ2": "Error en generación IA",
+                            "fldWI8lD28csAju3C": "Error",
+                            "fldZnLaTMEipHhL1m": "{{now}}"
+                        },
+                        "typecast": false,
+                        "useColumnId": false
+                    },
+                    "metadata": {
+                        "designer": {
+                            "x": 2400,
+                            "y": 600,
+                            "name": "Airtable – Registrar error de generación IA"
+                        },
+                        "setupValidation": {
+                            "result": {
+                                "valid": true,
+                                "fields": []
+                            },
+                            "version": 1,
+                            "configuration": "139862477ebe78a5"
+                        },
+                        "restore": {
+                            "expect": {
+                                "base": {
+                                    "label": "Pre-Entrega 7 — Pipeline HITL - Canzio Otero Julieta"
+                                },
+                                "table": {
+                                    "label": "Control de Contenidos"
+                                },
+                                "record": {
+                                    "nested": {
+                                        "fldKSsdnZ9FiuMQHl": {
+                                            "mode": "chose"
+                                        },
+                                        "fldPWFSelVfKWC3if": {
+                                            "mode": "edit"
+                                        },
+                                        "fldWI8lD28csAju3C": {
+                                            "mode": "edit"
+                                        }
+                                    }
+                                },
+                                "typecast": {
+                                    "mode": "chose"
+                                },
+                                "useColumnId": {
+                                    "mode": "chose"
+                                }
+                            },
+                            "parameters": {
+                                "__IMTCONN__": {
+                                    "data": {
+                                        "scoped": "true",
+                                        "connection": "airtable3"
+                                    },
+                                    "label": "Airtable - PreEntrega 7 (User ID: usr6GRrWHs520ULgG)"
+                                }
+                            }
+                        },
+                        "parameters": [
+                            {
+                                "name": "__IMTCONN__",
+                                "type": "account:airtable3,airtable2",
+                                "label": "Connection",
+                                "required": true
+                            }
+                        ],
+                        "expect": [
+                            {
+                                "name": "base",
+                                "type": "select",
+                                "label": "Base",
+                                "required": true
+                            },
+                            {
+                                "name": "typecast",
+                                "type": "boolean",
+                                "label": "Smart links",
+                                "required": true
+                            },
+                            {
+                                "name": "useColumnId",
+                                "type": "boolean",
+                                "label": "Use Column ID",
+                                "required": true
+                            },
+                            {
+                                "name": "table",
+                                "type": "select",
+                                "label": "Table",
+                                "required": true
+                            },
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "Record ID",
+                                "required": true
+                            },
+                            {
+                                "name": "record",
+                                "spec": [
+                                    {
+                                        "name": "fldtl8oZ6W1gRhSRd",
+                                        "type": "text",
+                                        "label": "Idea Semilla"
+                                    },
+                                    {
+                                        "name": "fldLdW33Orp6ms9Bh",
+                                        "type": "text",
+                                        "label": "Borrador IA"
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "fldWI8lD28csAju3C",
+                                        "type": "select",
+                                        "label": "Estado"
+                                    },
+                                    {
+                                        "name": "fldKSsdnZ9FiuMQHl",
+                                        "type": "boolean",
+                                        "label": "Aprobado"
+                                    },
+                                    {
+                                        "name": "flddK6YDL8SmNiBT0",
+                                        "type": "text",
+                                        "label": "Motivo Rechazo"
+                                    },
+                                    {
+                                        "mode": "edit",
+                                        "name": "fldPWFSelVfKWC3if",
+                                        "type": "select",
+                                        "label": "Canal"
+                                    },
+                                    {
+                                        "name": "fldZnLaTMEipHhL1m",
+                                        "time": false,
+                                        "type": "date",
+                                        "label": "Fecha última ejecución"
+                                    },
+                                    {
+                                        "name": "fldwwFoOpqhbTyAv8",
+                                        "time": false,
+                                        "type": "date",
+                                        "label": "Fecha publicación"
+                                    },
+                                    {
+                                        "name": "fld2k8mkT9TVmEIZ2",
+                                        "type": "text",
+                                        "label": "Resultado final"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Record"
+                            }
+                        ],
+                        "interface": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "createdTime",
+                                "type": "date",
+                                "label": "Created Time"
+                            },
+                            {
+                                "name": "Idea Semilla",
+                                "type": "text",
+                                "label": "Idea Semilla",
+                                "multiline": true
+                            },
+                            {
+                                "name": "Borrador IA",
+                                "type": "text",
+                                "label": "Borrador IA",
+                                "multiline": true
+                            },
+                            {
+                                "name": "Estado",
+                                "type": "text",
+                                "label": "Estado"
+                            },
+                            {
+                                "name": "Aprobado",
+                                "type": "boolean",
+                                "label": "Aprobado"
+                            },
+                            {
+                                "name": "Motivo Rechazo",
+                                "type": "text",
+                                "label": "Motivo Rechazo",
+                                "multiline": true
+                            },
+                            {
+                                "name": "Canal",
+                                "type": "text",
+                                "label": "Canal"
+                            },
+                            {
+                                "name": "Fecha última ejecución",
+                                "time": false,
+                                "type": "date",
+                                "label": "Fecha última ejecución"
+                            },
+                            {
+                                "name": "Fecha publicación",
+                                "time": false,
+                                "type": "date",
+                                "label": "Fecha publicación"
+                            },
+                            {
+                                "name": "Resultado final",
+                                "type": "text",
+                                "label": "Resultado final",
+                                "multiline": true
+                            },
+                            {
+                                "name": "Última modificación",
+                                "type": "date",
+                                "label": "Última modificación"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 41,
+                    "module": "airtable:ActionCreateRecord",
+                    "version": 3,
+                    "parameters": {
+                        "__IMTCONN__": 10298786
+                    },
+                    "mapper": {
+                        "base": "appE2ti2m7OuckfQ0",
+                        "table": "tblEZzzFztp7YxM5D",
+                        "record": {
+                            "fld6SCo0AbMntZsjz": [
+                                "{{34.record_id}}"
+                            ],
+                            "fld7bXYJkHG1YR2XK": "{{32.error.message}}",
+                            "fldMUhqXOoJaUjb2r": "{{32.error.type}}",
+                            "fldNuUzf2pDR16a6q": "ERR-IA-",
+                            "fldNwW0WoIBEzOc6e": "Entrega Final - Pipeline HITL",
+                            "fldVpUeuG2xGjewgw": "Claude - Generar borrador LinkedIn",
+                            "fldkkL1fRa2s1fzs4": "{{34.record_id}}",
+                            "fldvW6qZYvFkAd9PE": [
+                                "Alta"
+                            ],
+                            "fldzJkpCqhUGS5xJx": "{{now}}"
+                        },
+                        "typecast": false,
+                        "useColumnId": false
+                    },
+                    "metadata": {
+                        "designer": {
+                            "x": 2700,
+                            "y": 600,
+                            "name": "Airtable – Registrar error IA en LOG"
+                        },
+                        "setupValidation": {
+                            "result": {
+                                "valid": true,
+                                "fields": []
+                            },
+                            "version": 1,
+                            "configuration": "a6e721af59cc0cbb"
+                        },
+                        "restore": {
+                            "expect": {
+                                "base": {
+                                    "label": "Pre-Entrega 7 — Pipeline HITL - Canzio Otero Julieta"
+                                },
+                                "table": {
+                                    "label": "LOG de Errores",
+                                    "nested": [
+                                        {
+                                            "name": "record",
+                                            "spec": [
+                                                {
+                                                    "name": "fldNuUzf2pDR16a6q",
+                                                    "type": "text",
+                                                    "label": "Error ID"
+                                                },
+                                                {
+                                                    "name": "fldzJkpCqhUGS5xJx",
+                                                    "time": true,
+                                                    "type": "date",
+                                                    "label": "Fecha"
+                                                },
+                                                {
+                                                    "name": "fldNwW0WoIBEzOc6e",
+                                                    "type": "text",
+                                                    "label": "Escenario"
+                                                },
+                                                {
+                                                    "name": "fldVpUeuG2xGjewgw",
+                                                    "type": "text",
+                                                    "label": "Módulo"
+                                                },
+                                                {
+                                                    "name": "fldkkL1fRa2s1fzs4",
+                                                    "type": "text",
+                                                    "label": "Record ID"
+                                                },
+                                                {
+                                                    "name": "fldMUhqXOoJaUjb2r",
+                                                    "type": "text",
+                                                    "label": "Tipo de error"
+                                                },
+                                                {
+                                                    "name": "fld7bXYJkHG1YR2XK",
+                                                    "type": "text",
+                                                    "label": "Mensaje",
+                                                    "multiline": true
+                                                },
+                                                {
+                                                    "name": "fldvW6qZYvFkAd9PE",
+                                                    "spec": {
+                                                        "mode": "edit",
+                                                        "type": "select",
+                                                        "label": "Value",
+                                                        "dynamic": true,
+                                                        "options": [
+                                                            {
+                                                                "label": "Baja",
+                                                                "value": "Baja"
+                                                            },
+                                                            {
+                                                                "label": "Media",
+                                                                "value": "Media"
+                                                            },
+                                                            {
+                                                                "label": "Alta",
+                                                                "value": "Alta"
+                                                            },
+                                                            {
+                                                                "label": "",
+                                                                "value": ""
+                                                            }
+                                                        ],
+                                                        "validate": false
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Severidad"
+                                                },
+                                                {
+                                                    "name": "fldbgEoGczGq4KojV",
+                                                    "type": "boolean",
+                                                    "label": "Resuelto"
+                                                },
+                                                {
+                                                    "name": "fld6SCo0AbMntZsjz",
+                                                    "spec": {
+                                                        "label": "Record ID"
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Contenido afectado"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Record"
+                                        }
+                                    ]
+                                },
+                                "record": {
+                                    "nested": {
+                                        "fld6SCo0AbMntZsjz": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "fldbgEoGczGq4KojV": {
+                                            "mode": "chose"
+                                        },
+                                        "fldvW6qZYvFkAd9PE": {
+                                            "mode": "chose",
+                                            "items": [
+                                                {
+                                                    "value": {
+                                                        "mode": "edit"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                "typecast": {
+                                    "mode": "chose"
+                                },
+                                "useColumnId": {
+                                    "mode": "chose"
+                                }
+                            },
+                            "parameters": {
+                                "__IMTCONN__": {
+                                    "data": {
+                                        "scoped": "true",
+                                        "connection": "airtable3"
+                                    },
+                                    "label": "Airtable - PreEntrega 7 (User ID: usr6GRrWHs520ULgG)"
+                                }
+                            }
+                        },
+                        "parameters": [
+                            {
+                                "name": "__IMTCONN__",
+                                "type": "account:airtable3,airtable2",
+                                "label": "Connection",
+                                "required": true
+                            }
+                        ],
+                        "expect": [
+                            {
+                                "name": "base",
+                                "type": "select",
+                                "label": "Base",
+                                "required": true
+                            },
+                            {
+                                "name": "typecast",
+                                "type": "boolean",
+                                "label": "Smart links",
+                                "required": true
+                            },
+                            {
+                                "name": "useColumnId",
+                                "type": "boolean",
+                                "label": "Use Column ID",
+                                "required": true
+                            },
+                            {
+                                "name": "table",
+                                "type": "select",
+                                "label": "Table",
+                                "required": true
+                            },
+                            {
+                                "name": "record",
+                                "spec": [
+                                    {
+                                        "name": "fldNuUzf2pDR16a6q",
+                                        "type": "text",
+                                        "label": "Error ID"
+                                    },
+                                    {
+                                        "name": "fldzJkpCqhUGS5xJx",
+                                        "time": true,
+                                        "type": "date",
+                                        "label": "Fecha"
+                                    },
+                                    {
+                                        "name": "fldNwW0WoIBEzOc6e",
+                                        "type": "text",
+                                        "label": "Escenario"
+                                    },
+                                    {
+                                        "name": "fldVpUeuG2xGjewgw",
+                                        "type": "text",
+                                        "label": "Módulo"
+                                    },
+                                    {
+                                        "name": "fldkkL1fRa2s1fzs4",
+                                        "type": "text",
+                                        "label": "Record ID"
+                                    },
+                                    {
+                                        "name": "fldMUhqXOoJaUjb2r",
+                                        "type": "text",
+                                        "label": "Tipo de error"
+                                    },
+                                    {
+                                        "name": "fld7bXYJkHG1YR2XK",
+                                        "type": "text",
+                                        "label": "Mensaje"
+                                    },
+                                    {
+                                        "name": "fldvW6qZYvFkAd9PE",
+                                        "spec": {
+                                            "mode": "edit",
+                                            "name": "value",
+                                            "type": "select",
+                                            "label": "Value",
+                                            "dynamic": true,
+                                            "options": [
+                                                {
+                                                    "label": "Baja",
+                                                    "value": "Baja"
+                                                },
+                                                {
+                                                    "label": "Media",
+                                                    "value": "Media"
+                                                },
+                                                {
+                                                    "label": "Alta",
+                                                    "value": "Alta"
+                                                },
+                                                {
+                                                    "label": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "validate": false
+                                        },
+                                        "type": "array",
+                                        "label": "Severidad"
+                                    },
+                                    {
+                                        "name": "fldbgEoGczGq4KojV",
+                                        "type": "boolean",
+                                        "label": "Resuelto"
+                                    },
+                                    {
+                                        "name": "fld6SCo0AbMntZsjz",
+                                        "spec": {
+                                            "name": "value",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Contenido afectado"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Record"
+                            }
+                        ],
+                        "interface": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "createdTime",
+                                "type": "date",
+                                "label": "Created Time"
+                            },
+                            {
+                                "name": "Error ID",
+                                "type": "text",
+                                "label": "Error ID"
+                            },
+                            {
+                                "name": "Fecha",
+                                "time": true,
+                                "type": "date",
+                                "label": "Fecha"
+                            },
+                            {
+                                "name": "Escenario",
+                                "type": "text",
+                                "label": "Escenario"
+                            },
+                            {
+                                "name": "Módulo",
+                                "type": "text",
+                                "label": "Módulo"
+                            },
+                            {
+                                "name": "Record ID",
+                                "type": "text",
+                                "label": "Record ID"
+                            },
+                            {
+                                "name": "Tipo de error",
+                                "type": "text",
+                                "label": "Tipo de error"
+                            },
+                            {
+                                "name": "Mensaje",
+                                "type": "text",
+                                "label": "Mensaje",
+                                "multiline": true
+                            },
+                            {
+                                "name": "Severidad",
+                                "type": "array",
+                                "label": "Severidad",
+                                "dynamic": true,
+                                "editable": true
+                            },
+                            {
+                                "name": "Resuelto",
+                                "type": "boolean",
+                                "label": "Resuelto"
+                            },
+                            {
+                                "name": "Contenido afectado",
+                                "spec": {
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Contenido afectado"
+                            }
+                        ]
+                    },
+                    "onerror": [
+                        {
+                            "id": 43,
+                            "module": "google-email:sendAnEmail",
+                            "version": 4,
+                            "parameters": {
+                                "__IMTCONN__": 9567204
+                            },
+                            "mapper": {
+                                "to": [
+                                    "julicanzio@hotmail.com"
+                                ],
+                                "content": "Se detectó un error crítico en el escenario Entrega Final - Pipeline HITL.\r\n\r\nMódulo:\r\nClaude - Generar borrador LinkedIn\r\n\r\nRecord ID:\r\n{{34.record_id}}\r\n\r\nTipo de error:\r\n{{32.error.type}}\r\n\r\nMensaje:\r\n{{32.error.message}}\r\n\r\nLa ejecución fue detenida para evitar que el flujo continúe con datos inválidos.\r\n\r\nRevisar el registro correspondiente en Airtable y el LOG de Errores.",
+                                "subject": "ALERTA - Error crítico en Pipeline HITL",
+                                "bodyType": "rawHtml"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 3000,
+                                    "y": 600,
+                                    "name": "Gmail – Notificar error crítico"
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "6d499d66eb916383"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "from": {
+                                            "mode": "chose"
+                                        },
+                                        "bodyType": {
+                                            "label": "Raw HTML"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        },
+                                        "emailHeaders": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-email"
+                                            },
+                                            "label": "Juli's Gmail connection (julican95@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google-email",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address",
+                                            "required": true,
+                                            "validate": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "bodyType",
+                                        "type": "select",
+                                        "label": "Body type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "rawHtml",
+                                                "collection"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "filename",
+                                                    "type": "filename",
+                                                    "label": "File name",
+                                                    "required": true,
+                                                    "semantic": "file:name"
+                                                },
+                                                {
+                                                    "name": "data",
+                                                    "type": "buffer",
+                                                    "label": "Data",
+                                                    "required": true,
+                                                    "semantic": "file:data"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Attachment"
+                                        },
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "CC recipients"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "BCC recipients"
+                                    },
+                                    {
+                                        "name": "emailHeaders",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "key",
+                                                    "type": "text",
+                                                    "label": "Key",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Email header"
+                                        },
+                                        "type": "array",
+                                        "label": "Additional email headers"
+                                    },
+                                    {
+                                        "name": "content",
+                                        "type": "text",
+                                        "label": "Content"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 42,
+                            "module": "builtin:Commit",
+                            "version": 1,
+                            "parameters": {},
+                            "mapper": {},
+                            "metadata": {
+                                "designer": {
+                                    "x": 3300,
+                                    "y": 600,
+                                    "name": "Commit - Cerrar ejecución por error IA"
+                                },
+                                "restore": {}
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "module": "airtable:ActionUpdateRecords",
+            "version": 3,
+            "parameters": {
+                "__IMTCONN__": 10298786
+            },
+            "mapper": {
+                "id": "{{34.record_id}}",
+                "base": "appE2ti2m7OuckfQ0",
+                "table": "tbl3mrzpqGSHcUYje",
+                "record": {
+                    "fldLdW33Orp6ms9Bh": "{{32.result}}",
+                    "fldPWFSelVfKWC3if": "{{2.Canal}}",
+                    "fldWI8lD28csAju3C": "En revisión",
+                    "fldZnLaTMEipHhL1m": "{{now}}"
+                },
+                "typecast": false,
+                "useColumnId": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2400,
+                    "y": 150,
+                    "name": "Airtable – Guardar borrador en revisión"
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "942e84d3a540b506"
+                },
+                "restore": {
+                    "expect": {
+                        "base": {
+                            "label": "Pre-Entrega 7 — Pipeline HITL"
+                        },
+                        "table": {
+                            "label": "Control de Contenidos"
+                        },
+                        "record": {
+                            "nested": {
+                                "fldKSsdnZ9FiuMQHl": {
+                                    "mode": "chose"
+                                },
+                                "fldPWFSelVfKWC3if": {
+                                    "mode": "edit"
+                                },
+                                "fldWI8lD28csAju3C": {
+                                    "mode": "chose",
+                                    "label": "En revisión"
+                                }
+                            }
+                        },
+                        "typecast": {
+                            "mode": "chose"
+                        },
+                        "useColumnId": {
+                            "mode": "chose"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "airtable3"
+                            },
+                            "label": "Airtable - PreEntrega 7 (User ID: usr6GRrWHs520ULgG)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:airtable3,airtable2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "base",
+                        "type": "select",
+                        "label": "Base",
+                        "required": true
+                    },
+                    {
+                        "name": "typecast",
+                        "type": "boolean",
+                        "label": "Smart links",
+                        "required": true
+                    },
+                    {
+                        "name": "useColumnId",
+                        "type": "boolean",
+                        "label": "Use Column ID",
+                        "required": true
+                    },
+                    {
+                        "name": "table",
+                        "type": "select",
+                        "label": "Table",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Record ID",
+                        "required": true
+                    },
+                    {
+                        "name": "record",
+                        "spec": [
+                            {
+                                "name": "fldtl8oZ6W1gRhSRd",
+                                "type": "text",
+                                "label": "Idea Semilla"
+                            },
+                            {
+                                "name": "fldLdW33Orp6ms9Bh",
+                                "type": "text",
+                                "label": "Borrador IA"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldWI8lD28csAju3C",
+                                "type": "select",
+                                "label": "Estado"
+                            },
+                            {
+                                "name": "fldKSsdnZ9FiuMQHl",
+                                "type": "boolean",
+                                "label": "Aprobado"
+                            },
+                            {
+                                "name": "flddK6YDL8SmNiBT0",
+                                "type": "text",
+                                "label": "Motivo Rechazo"
+                            },
+                            {
+                                "mode": "edit",
+                                "name": "fldPWFSelVfKWC3if",
+                                "type": "select",
+                                "label": "Canal"
+                            },
+                            {
+                                "name": "fldZnLaTMEipHhL1m",
+                                "time": false,
+                                "type": "date",
+                                "label": "Fecha última ejecución"
+                            },
+                            {
+                                "name": "fldwwFoOpqhbTyAv8",
+                                "time": false,
+                                "type": "date",
+                                "label": "Fecha publicación"
+                            },
+                            {
+                                "name": "fld2k8mkT9TVmEIZ2",
+                                "type": "text",
+                                "label": "Resultado final"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Record"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "createdTime",
+                        "type": "date",
+                        "label": "Created Time"
+                    },
+                    {
+                        "name": "Idea Semilla",
+                        "type": "text",
+                        "label": "Idea Semilla",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Borrador IA",
+                        "type": "text",
+                        "label": "Borrador IA",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Estado",
+                        "type": "text",
+                        "label": "Estado"
+                    },
+                    {
+                        "name": "Aprobado",
+                        "type": "boolean",
+                        "label": "Aprobado"
+                    },
+                    {
+                        "name": "Motivo Rechazo",
+                        "type": "text",
+                        "label": "Motivo Rechazo",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Canal",
+                        "type": "text",
+                        "label": "Canal"
+                    },
+                    {
+                        "name": "Fecha última ejecución",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha última ejecución"
+                    },
+                    {
+                        "name": "Fecha publicación",
+                        "time": false,
+                        "type": "date",
+                        "label": "Fecha publicación"
+                    },
+                    {
+                        "name": "Resultado final",
+                        "type": "text",
+                        "label": "Resultado final",
+                        "multiline": true
+                    },
+                    {
+                        "name": "Última modificación",
+                        "type": "date",
+                        "label": "Última modificación"
+                    }
+                ]
+            },
+            "onerror": [
+                {
+                    "id": 39,
+                    "module": "airtable:ActionCreateRecord",
+                    "version": 3,
+                    "parameters": {
+                        "__IMTCONN__": 10298786
+                    },
+                    "mapper": {
+                        "base": "appE2ti2m7OuckfQ0",
+                        "table": "tblEZzzFztp7YxM5D",
+                        "record": {
+                            "fld6SCo0AbMntZsjz": [
+                                "{{34.record_id}}"
+                            ],
+                            "fld7bXYJkHG1YR2XK": "{{13.error.message}}",
+                            "fldMUhqXOoJaUjb2r": "{{13.error.type}}",
+                            "fldNwW0WoIBEzOc6e": "Entrega Final - Pipeline HITL",
+                            "fldVpUeuG2xGjewgw": "Airtable - Guardar borrador en revisión",
+                            "fldbgEoGczGq4KojV": false,
+                            "fldkkL1fRa2s1fzs4": "{{34.record_id}}",
+                            "fldvW6qZYvFkAd9PE": "Alta",
+                            "fldzJkpCqhUGS5xJx": "{{now}}"
+                        },
+                        "typecast": false,
+                        "useColumnId": false
+                    },
+                    "metadata": {
+                        "designer": {
+                            "x": 2700,
+                            "y": 300,
+                            "name": "Airtable – Registrar error técnico"
+                        },
+                        "setupValidation": {
+                            "result": {
+                                "valid": true,
+                                "fields": []
+                            },
+                            "version": 1,
+                            "configuration": "af6024e107e6451"
+                        },
+                        "restore": {
+                            "expect": {
+                                "base": {
+                                    "label": "Pre-Entrega 7 — Pipeline HITL - Canzio Otero Julieta"
+                                },
+                                "table": {
+                                    "label": "LOG de Errores",
+                                    "nested": [
+                                        {
+                                            "name": "record",
+                                            "spec": [
+                                                {
+                                                    "name": "fldNuUzf2pDR16a6q",
+                                                    "type": "text",
+                                                    "label": "Error ID"
+                                                },
+                                                {
+                                                    "name": "fldzJkpCqhUGS5xJx",
+                                                    "time": true,
+                                                    "type": "date",
+                                                    "label": "Fecha"
+                                                },
+                                                {
+                                                    "name": "fldNwW0WoIBEzOc6e",
+                                                    "type": "text",
+                                                    "label": "Escenario"
+                                                },
+                                                {
+                                                    "name": "fldVpUeuG2xGjewgw",
+                                                    "type": "text",
+                                                    "label": "Módulo"
+                                                },
+                                                {
+                                                    "name": "fldkkL1fRa2s1fzs4",
+                                                    "type": "text",
+                                                    "label": "Record ID"
+                                                },
+                                                {
+                                                    "name": "fldMUhqXOoJaUjb2r",
+                                                    "type": "text",
+                                                    "label": "Tipo de error"
+                                                },
+                                                {
+                                                    "name": "fld7bXYJkHG1YR2XK",
+                                                    "type": "text",
+                                                    "label": "Mensaje",
+                                                    "multiline": true
+                                                },
+                                                {
+                                                    "name": "fldvW6qZYvFkAd9PE",
+                                                    "spec": {
+                                                        "mode": "edit",
+                                                        "type": "select",
+                                                        "label": "Value",
+                                                        "dynamic": true,
+                                                        "options": [
+                                                            {
+                                                                "label": "Baja",
+                                                                "value": "Baja"
+                                                            },
+                                                            {
+                                                                "label": "Media",
+                                                                "value": "Media"
+                                                            },
+                                                            {
+                                                                "label": "Alta",
+                                                                "value": "Alta"
+                                                            },
+                                                            {
+                                                                "label": "",
+                                                                "value": ""
+                                                            }
+                                                        ],
+                                                        "validate": false
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Severidad"
+                                                },
+                                                {
+                                                    "name": "fldbgEoGczGq4KojV",
+                                                    "type": "boolean",
+                                                    "label": "Resuelto"
+                                                },
+                                                {
+                                                    "name": "fld6SCo0AbMntZsjz",
+                                                    "spec": {
+                                                        "label": "Record ID"
+                                                    },
+                                                    "type": "array",
+                                                    "label": "Contenido afectado"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Record"
+                                        }
+                                    ]
+                                },
+                                "record": {
+                                    "nested": {
+                                        "fld6SCo0AbMntZsjz": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "fldbgEoGczGq4KojV": {
+                                            "mode": "chose"
+                                        },
+                                        "fldvW6qZYvFkAd9PE": {
+                                            "mode": "edit"
+                                        }
+                                    }
+                                },
+                                "typecast": {
+                                    "mode": "chose"
+                                },
+                                "useColumnId": {
+                                    "mode": "chose"
+                                }
+                            },
+                            "parameters": {
+                                "__IMTCONN__": {
+                                    "data": {
+                                        "scoped": "true",
+                                        "connection": "airtable3"
+                                    },
+                                    "label": "Airtable - PreEntrega 7 (User ID: usr6GRrWHs520ULgG)"
+                                }
+                            }
+                        },
+                        "parameters": [
+                            {
+                                "name": "__IMTCONN__",
+                                "type": "account:airtable3,airtable2",
+                                "label": "Connection",
+                                "required": true
+                            }
+                        ],
+                        "expect": [
+                            {
+                                "name": "base",
+                                "type": "select",
+                                "label": "Base",
+                                "required": true
+                            },
+                            {
+                                "name": "typecast",
+                                "type": "boolean",
+                                "label": "Smart links",
+                                "required": true
+                            },
+                            {
+                                "name": "useColumnId",
+                                "type": "boolean",
+                                "label": "Use Column ID",
+                                "required": true
+                            },
+                            {
+                                "name": "table",
+                                "type": "select",
+                                "label": "Table",
+                                "required": true
+                            },
+                            {
+                                "name": "record",
+                                "spec": [
+                                    {
+                                        "name": "fldNuUzf2pDR16a6q",
+                                        "type": "text",
+                                        "label": "Error ID"
+                                    },
+                                    {
+                                        "name": "fldzJkpCqhUGS5xJx",
+                                        "time": true,
+                                        "type": "date",
+                                        "label": "Fecha"
+                                    },
+                                    {
+                                        "name": "fldNwW0WoIBEzOc6e",
+                                        "type": "text",
+                                        "label": "Escenario"
+                                    },
+                                    {
+                                        "name": "fldVpUeuG2xGjewgw",
+                                        "type": "text",
+                                        "label": "Módulo"
+                                    },
+                                    {
+                                        "name": "fldkkL1fRa2s1fzs4",
+                                        "type": "text",
+                                        "label": "Record ID"
+                                    },
+                                    {
+                                        "name": "fldMUhqXOoJaUjb2r",
+                                        "type": "text",
+                                        "label": "Tipo de error"
+                                    },
+                                    {
+                                        "name": "fld7bXYJkHG1YR2XK",
+                                        "type": "text",
+                                        "label": "Mensaje"
+                                    },
+                                    {
+                                        "name": "fldvW6qZYvFkAd9PE",
+                                        "spec": {
+                                            "mode": "edit",
+                                            "name": "value",
+                                            "type": "select",
+                                            "label": "Value",
+                                            "dynamic": true,
+                                            "options": [
+                                                {
+                                                    "label": "Baja",
+                                                    "value": "Baja"
+                                                },
+                                                {
+                                                    "label": "Media",
+                                                    "value": "Media"
+                                                },
+                                                {
+                                                    "label": "Alta",
+                                                    "value": "Alta"
+                                                },
+                                                {
+                                                    "label": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "validate": false
+                                        },
+                                        "type": "array",
+                                        "label": "Severidad"
+                                    },
+                                    {
+                                        "name": "fldbgEoGczGq4KojV",
+                                        "type": "boolean",
+                                        "label": "Resuelto"
+                                    },
+                                    {
+                                        "name": "fld6SCo0AbMntZsjz",
+                                        "spec": {
+                                            "name": "value",
+                                            "label": "Record ID"
+                                        },
+                                        "type": "array",
+                                        "label": "Contenido afectado"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Record"
+                            }
+                        ],
+                        "interface": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "createdTime",
+                                "type": "date",
+                                "label": "Created Time"
+                            },
+                            {
+                                "name": "Error ID",
+                                "type": "text",
+                                "label": "Error ID"
+                            },
+                            {
+                                "name": "Fecha",
+                                "time": true,
+                                "type": "date",
+                                "label": "Fecha"
+                            },
+                            {
+                                "name": "Escenario",
+                                "type": "text",
+                                "label": "Escenario"
+                            },
+                            {
+                                "name": "Módulo",
+                                "type": "text",
+                                "label": "Módulo"
+                            },
+                            {
+                                "name": "Record ID",
+                                "type": "text",
+                                "label": "Record ID"
+                            },
+                            {
+                                "name": "Tipo de error",
+                                "type": "text",
+                                "label": "Tipo de error"
+                            },
+                            {
+                                "name": "Mensaje",
+                                "type": "text",
+                                "label": "Mensaje",
+                                "multiline": true
+                            },
+                            {
+                                "name": "Severidad",
+                                "type": "array",
+                                "label": "Severidad",
+                                "dynamic": true,
+                                "editable": true
+                            },
+                            {
+                                "name": "Resuelto",
+                                "type": "boolean",
+                                "label": "Resuelto"
+                            },
+                            {
+                                "name": "Contenido afectado",
+                                "spec": {
+                                    "label": "Record ID"
+                                },
+                                "type": "array",
+                                "label": "Contenido afectado"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 45,
+                    "module": "google-email:sendAnEmail",
+                    "version": 4,
+                    "parameters": {
+                        "__IMTCONN__": 9567204
+                    },
+                    "mapper": {
+                        "to": [
+                            "julicanzio@hotmail.com"
+                        ],
+                        "content": "Se detectó un error crítico en el escenario Entrega Final - Pipeline HITL.\r\n\r\nMódulo:\r\nAirtable - Guardar borrador en revisión\r\n\r\nRecord ID:\r\n{{34.record_id}}\r\n\r\nTipo de error:\r\n{{13.error.type}}\r\n\r\nMensaje:\r\n{{13.error.message}}\r\n\r\nLa ejecución fue detenida para evitar que el flujo continúe con datos incompletos.\r\n\r\nRevisar el registro correspondiente en Airtable y el LOG de Errores.",
+                        "subject": "ALERTA - Error crítico de Airtable",
+                        "bodyType": "rawHtml"
+                    },
+                    "metadata": {
+                        "designer": {
+                            "x": 3000,
+                            "y": 300,
+                            "name": "Gmail – Notificar error crítico de Airtable"
+                        },
+                        "setupValidation": {
+                            "result": {
+                                "valid": true,
+                                "fields": []
+                            },
+                            "version": 1,
+                            "configuration": "2254b5fc01e3b3af"
+                        },
+                        "restore": {
+                            "expect": {
+                                "cc": {
+                                    "mode": "chose"
+                                },
+                                "to": {
+                                    "mode": "chose",
+                                    "items": [
+                                        null
+                                    ]
+                                },
+                                "bcc": {
+                                    "mode": "chose"
+                                },
+                                "from": {
+                                    "mode": "chose",
+                                    "label": "Empty"
+                                },
+                                "bodyType": {
+                                    "label": "Raw HTML"
+                                },
+                                "attachments": {
+                                    "mode": "chose"
+                                },
+                                "emailHeaders": {
+                                    "mode": "chose"
+                                }
+                            },
+                            "parameters": {
+                                "__IMTCONN__": {
+                                    "data": {
+                                        "scoped": "true",
+                                        "connection": "google-email"
+                                    },
+                                    "label": "Juli's Gmail connection (julican95@gmail.com)"
+                                }
+                            }
+                        },
+                        "parameters": [
+                            {
+                                "name": "__IMTCONN__",
+                                "type": "account:google-email",
+                                "label": "Connection",
+                                "required": true
+                            }
+                        ],
+                        "expect": [
+                            {
+                                "name": "to",
+                                "spec": {
+                                    "name": "value",
+                                    "type": "email",
+                                    "label": "Recipient email address",
+                                    "required": true,
+                                    "validate": true
+                                },
+                                "type": "array",
+                                "label": "To",
+                                "required": true
+                            },
+                            {
+                                "name": "subject",
+                                "type": "text",
+                                "label": "Subject"
+                            },
+                            {
+                                "name": "bodyType",
+                                "type": "select",
+                                "label": "Body type",
+                                "required": true,
+                                "validate": {
+                                    "enum": [
+                                        "rawHtml",
+                                        "collection"
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "attachments",
+                                "spec": {
+                                    "name": "value",
+                                    "spec": [
+                                        {
+                                            "name": "filename",
+                                            "type": "filename",
+                                            "label": "File name",
+                                            "required": true,
+                                            "semantic": "file:name"
+                                        },
+                                        {
+                                            "name": "data",
+                                            "type": "buffer",
+                                            "label": "Data",
+                                            "required": true,
+                                            "semantic": "file:data"
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Attachment"
+                                },
+                                "type": "array",
+                                "label": "Attachments"
+                            },
+                            {
+                                "name": "from",
+                                "type": "select",
+                                "label": "From"
+                            },
+                            {
+                                "name": "cc",
+                                "spec": {
+                                    "name": "value",
+                                    "type": "email",
+                                    "label": "Recipient email address"
+                                },
+                                "type": "array",
+                                "label": "CC recipients"
+                            },
+                            {
+                                "name": "bcc",
+                                "spec": {
+                                    "name": "value",
+                                    "type": "email",
+                                    "label": "Recipient email address"
+                                },
+                                "type": "array",
+                                "label": "BCC recipients"
+                            },
+                            {
+                                "name": "emailHeaders",
+                                "spec": {
+                                    "name": "value",
+                                    "spec": [
+                                        {
+                                            "name": "key",
+                                            "type": "text",
+                                            "label": "Key",
+                                            "required": true
+                                        },
+                                        {
+                                            "name": "value",
+                                            "type": "text",
+                                            "label": "Value"
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Email header"
+                                },
+                                "type": "array",
+                                "label": "Additional email headers"
+                            },
+                            {
+                                "name": "content",
+                                "type": "text",
+                                "label": "Content"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 46,
+                    "module": "builtin:Commit",
+                    "version": 1,
+                    "parameters": {},
+                    "mapper": {},
+                    "metadata": {
+                        "designer": {
+                            "x": 3300,
+                            "y": 300,
+                            "name": "Commit - Cerrar ejecución por error Airtable"
+                        },
+                        "restore": {}
+                    }
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "module": "hitl:createNewRequest",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 10544137
+            },
+            "mapper": {
+                "loopId": "6a9b67dfc510d9c1ea9f409e",
+                "context": "{\r\n  \"airtable_record_id\": \"{{34.record_id}}\"\r\n}",
+                "priority": "medium",
+                "contentType": "markdown",
+                "requestText": "Revisión de contenido requerida\n\nRevisá el siguiente borrador generado por IA y decidí si puede publicarse.\n\nIdea semilla: {{7.idea_semilla}}\n\nBorrador generado:\n{{32.result}}\n\nRespondé únicamente con APROBAR o RECHAZAR.",
+                "responseType": "single_select",
+                "processingType": "time-sensitive",
+                "timeoutSeconds": "600",
+                "defaultResponse": "Rechazar",
+                "responseOptions": "Aprobar, Rechazar"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 2700,
+                    "y": 0,
+                    "name": "HITL – Solicitar aprobación humana"
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "74bc451ae41ed77f"
+                },
+                "restore": {
+                    "expect": {
+                        "loopId": {
+                            "mode": "chose",
+                            "label": "Aprobación de Contenido - Entrega Final"
+                        },
+                        "priority": {
+                            "mode": "chose",
+                            "label": "Medium"
+                        },
+                        "contentType": {
+                            "mode": "chose",
+                            "label": "Markdown/Text"
+                        },
+                        "responseType": {
+                            "mode": "chose",
+                            "label": "Single Select"
+                        },
+                        "processingType": {
+                            "mode": "chose",
+                            "label": "Time-Sensitive (with timeout)"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "hitl2"
+                            },
+                            "label": "Juli's Human Approval - HITL Platform connection (HITL API Connection)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:hitl2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "loopId",
+                        "type": "select",
+                        "label": "Loop",
+                        "required": true
+                    },
+                    {
+                        "name": "processingType",
+                        "type": "select",
+                        "label": "Processing Type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "deferred",
+                                "time-sensitive"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "contentType",
+                        "type": "select",
+                        "label": "Content Type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "markdown",
+                                "image"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "priority",
+                        "type": "select",
+                        "label": "Priority",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "low",
+                                "medium",
+                                "high",
+                                "critical"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "responseType",
+                        "type": "select",
+                        "label": "Response Type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "text",
+                                "single_select",
+                                "multi_select",
+                                "rating",
+                                "number",
+                                "boolean"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "defaultResponse",
+                        "type": "text",
+                        "label": "Default Response",
+                        "required": true
+                    },
+                    {
+                        "name": "context",
+                        "type": "text",
+                        "label": "Context (JSON)"
+                    },
+                    {
+                        "name": "timeoutSeconds",
+                        "type": "number",
+                        "label": "Timeout (seconds)",
+                        "validate": {
+                            "max": 86400,
+                            "min": 60
+                        }
+                    },
+                    {
+                        "name": "requestText",
+                        "type": "text",
+                        "label": "Request Text",
+                        "required": true
+                    },
+                    {
+                        "name": "responseOptions",
+                        "type": "text",
+                        "label": "Response Options",
+                        "required": true
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}
