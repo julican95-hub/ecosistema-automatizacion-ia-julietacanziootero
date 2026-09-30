@@ -1,1 +1,58 @@
-Diagramas de arquitectura de los escenarios de automatización.
+# Diagramas de Arquitectura
+
+Esta carpeta contiene los diagramas oficiales del sistema implementado en Make.
+
+Los diagramas representan visualmente los triggers, módulos, rutas de decisión, procesamiento mediante IA, destinos de datos, Human-in-the-Loop y rutas de error.
+
+## Escenario 1 — Entrega Final - Pipeline HITL
+
+El flujo representa:
+
+1. detección del contenido desde Airtable;
+2. persistencia de Idea Semilla y Record ID;
+3. consulta de Base de Conocimiento RAG;
+4. agregación del contexto;
+5. generación mediante Claude;
+6. guardado del borrador en Airtable;
+7. solicitud de aprobación humana mediante HITL.
+
+También incluye las rutas de contingencia asociadas a:
+
+- errores de Claude;
+- errores de Airtable;
+- registro en LOG de Errores;
+- alertas administrativas;
+- Commit para cierre controlado de la ejecución.
+
+## Escenario 2 — Entrega Final - HITL Aprobación
+
+El flujo representa:
+
+1. recepción de la respuesta HITL;
+2. recuperación del contenido evaluado;
+3. Router de decisión;
+4. rama Rechazar;
+5. rama Aprobar;
+6. envío mediante Gmail;
+7. actualización final en Airtable.
+
+También incluye la ruta de error asociada al envío mediante Gmail y su registro en LOG de Errores.
+
+## Convenciones utilizadas
+
+- **Óvalo:** inicio o fin del proceso.
+- **Rectángulo:** proceso o acción.
+- **Rombo:** decisión.
+- **Rutas diferenciadas:** flujo principal y rutas de contingencia.
+
+## Relación con la implementación
+
+Estos son los diagramas oficiales utilizados en la documentación final.
+
+La configuración real de los escenarios puede verificarse en:
+
+- [Blueprints de Make](../blueprints/)
+
+Las capturas de ejecución se encuentran en:
+
+- [Evidencias](../evidencias/)
