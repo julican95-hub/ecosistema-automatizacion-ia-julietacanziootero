@@ -1,49 +1,54 @@
 # Documentación Final
 
-Esta carpeta contiene el documento principal de la Entrega Final.
+Esta carpeta contiene el documento principal de la **Entrega Final — Ecosistema de Automatización IA Autónomo para Negocios**.
 
-El PDF integra la explicación funcional y técnica completa del proyecto.
+El PDF integra la explicación funcional y técnica completa del proyecto, junto con las evidencias necesarias para verificar cada criterio de evaluación.
 
 ## Contenido del documento
 
 La documentación incluye:
 
-1. resumen ejecutivo;
-2. caso de uso;
-3. arquitectura general;
-4. Escenario 1 — Pipeline HITL;
-5. Escenario 2 — HITL Aprobación;
-6. Manual Operativo de Estructuras de Datos;
-7. esquemas JSON de transferencia;
-8. estrategia de optimización de costos;
-9. Claude Haiku 4.5;
-10. Message Batches y ahorro del 50%;
-11. Prompt Caching;
-12. malla de seguridad y privacidad;
-13. Human-in-the-Loop;
-14. Error Handlers;
-15. Commit;
-16. LOG de Errores;
-17. prevención de loops;
-18. validación de tipos;
-19. cinco pruebas funcionales;
-20. Dashboard Ejecutivo;
-21. Shared View pública;
-22. instrucciones de ejecución;
-23. matriz de cumplimiento de la rúbrica;
-24. referencias a evidencias E01–E18.
+1. Resumen ejecutivo.
+2. Caso de uso.
+3. Arquitectura general del sistema.
+4. Escenario 1 — Pipeline HITL.
+5. Escenario 2 — Aprobación HITL.
+6. Manual Operativo de Estructuras de Datos.
+7. Esquemas JSON de transferencia.
+8. Estrategia de Optimización de Costos y Recursos.
+9. Uso de Claude Haiku 4.5.
+10. Message Batches y estrategia de ahorro del 50%.
+11. Prompt Caching como estrategia complementaria.
+12. Malla de Seguridad, Privacidad y Resiliencia.
+13. Human-in-the-Loop (HITL).
+14. Error Handlers.
+15. Commit.
+16. LOG de Errores.
+17. Prevención de bucles.
+18. Validación de tipos.
+19. Cinco pruebas funcionales.
+20. Dashboard Ejecutivo.
+21. Shared View pública de Airtable.
+22. Instrucciones de ejecución.
+23. Matriz de cumplimiento de la rúbrica.
+24. Referencias a evidencias E01–E18.
 
 ## Alcance técnico
 
-El proyecto automatiza un pipeline de generación y aprobación de contenido destinado a LinkedIn.
+El proyecto automatiza un pipeline de generación, revisión y aprobación de contenido destinado editorialmente a LinkedIn.
 
-LinkedIn es el destino editorial del contenido.
+**LinkedIn es el destino editorial del contenido.** La implementación no publica directamente mediante la API de LinkedIn. La salida técnica implementada en el flujo es **Gmail**.
 
-La implementación no publica directamente mediante la API de LinkedIn.
+**Message Batches** y **Prompt Caching** se documentan como estrategias de escalabilidad y optimización futura y no como funcionalidades actualmente implementadas.
 
-La salida técnica implementada es Gmail.
+## Dashboard Ejecutivo y acceso público
 
-Message Batches y Prompt Caching se documentan como estrategias de escalabilidad y optimización futura, no como funcionalidades actualmente implementadas.
+El proyecto utiliza dos superficies complementarias en Airtable:
+
+- **Dashboard Ejecutivo interno:** implementado mediante Airtable Interface y utilizado para visualizar KPIs, métricas de éxito, tasa de error y distribución de contenidos por estado.
+- **Shared View pública:** acceso web de solo lectura utilizado para la verificación externa de registros y estados del pipeline.
+
+La Airtable Interface no se encuentra publicada de forma abierta debido a las restricciones de publicación disponibles en la configuración actual. Por este motivo, la verificación externa se realiza mediante la Shared View pública, mientras que el Dashboard Ejecutivo queda documentado mediante las evidencias del proyecto.
 
 ## Archivos relacionados
 
@@ -55,8 +60,12 @@ Message Batches y Prompt Caching se documentan como estrategias de escalabilidad
 
 ### Shared View pública de Airtable
 
-https://airtable.com/appE2ti2m7OuckfQ0/shrkquKwRuhnPU9I1
+[Acceder a la Shared View pública](https://airtable.com/appE2ti2m7OuckfQ0/shrkquKwRuhnPU9I1)
 
 ### Video demostrativo
 
-https://drive.google.com/file/d/1JQm1HIwfARJNoBBY6tUheFoC8ZpGZBKX/view?usp=drive_link
+[Ver demostración funcional end-to-end](https://drive.google.com/file/d/1JQm1HIwfARJNoBBY6tUheFoC8ZpGZBKX/view?usp=drive_link)
+
+## Verificación
+
+El documento principal, los Blueprints, los diagramas oficiales, las evidencias E01–E18, la Shared View pública y el video demostrativo conforman en conjunto la evidencia técnica y funcional de la Entrega Final.
