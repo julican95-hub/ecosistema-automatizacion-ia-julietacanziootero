@@ -1,1 +1,62 @@
+# Documentación Final
 
+Esta carpeta contiene el documento principal de la Entrega Final.
+
+El PDF integra la explicación funcional y técnica completa del proyecto.
+
+## Contenido del documento
+
+La documentación incluye:
+
+1. resumen ejecutivo;
+2. caso de uso;
+3. arquitectura general;
+4. Escenario 1 — Pipeline HITL;
+5. Escenario 2 — HITL Aprobación;
+6. Manual Operativo de Estructuras de Datos;
+7. esquemas JSON de transferencia;
+8. estrategia de optimización de costos;
+9. Claude Haiku 4.5;
+10. Message Batches y ahorro del 50%;
+11. Prompt Caching;
+12. malla de seguridad y privacidad;
+13. Human-in-the-Loop;
+14. Error Handlers;
+15. Commit;
+16. LOG de Errores;
+17. prevención de loops;
+18. validación de tipos;
+19. cinco pruebas funcionales;
+20. Dashboard Ejecutivo;
+21. Shared View pública;
+22. instrucciones de ejecución;
+23. matriz de cumplimiento de la rúbrica;
+24. referencias a evidencias E01–E18.
+
+## Alcance técnico
+
+El proyecto automatiza un pipeline de generación y aprobación de contenido destinado a LinkedIn.
+
+LinkedIn es el destino editorial del contenido.
+
+La implementación no publica directamente mediante la API de LinkedIn.
+
+La salida técnica implementada es Gmail.
+
+Message Batches y Prompt Caching se documentan como estrategias de escalabilidad y optimización futura, no como funcionalidades actualmente implementadas.
+
+## Archivos relacionados
+
+- [Blueprints de Make](../blueprints/)
+- [Diagramas oficiales](../diagramas/)
+- [Evidencias verificables](../evidencias/)
+
+## Enlaces externos
+
+### Shared View pública de Airtable
+
+https://airtable.com/appE2ti2m7OuckfQ0/shrkquKwRuhnPU9I1
+
+### Video demostrativo
+
+https://drive.google.com/file/d/1JQm1HIwfARJNoBBY6tUheFoC8ZpGZBKX/view?usp=drive_link
