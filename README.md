@@ -1,119 +1,290 @@
-## Ecosistema de Automatización IA Autónomo para Negocios
+# Ecosistema de Automatización IA Autónomo para Negocios
 
-## Pipeline de generación de contenido con RAG, Claude y Human-in-the-Loop
+## Entrega Final — Julieta Canzio Otero
 
-**Autora:** Julieta Canzio Otero  
-**Orquestador:** Make  
-**Base de datos:** Airtable  
-**Motor de IA:** Anthropic Claude  
-**Validación humana:** Human-in-the-Loop  
-**Canal de salida:** Gmail  
+Proyecto final de automatización end-to-end orientado a la generación, revisión y salida controlada de contenido destinado a LinkedIn.
 
----
+La solución integra:
 
-## 1. Descripción del proyecto
-
-Este proyecto implementa un ecosistema de automatización para la generación, revisión y gestión controlada de contenido para LinkedIn.
-
-El sistema parte de una **Idea Semilla almacenada en Airtable**. Make detecta los registros que cumplen las condiciones de entrada, consulta una **Base de Conocimiento RAG**, construye el contexto necesario y utiliza **Anthropic Claude** para generar un borrador.
-
-El contenido generado no se envía automáticamente. Antes de ejecutar una acción final, el flujo crea una solicitud de **Human-in-the-Loop (HITL)** para que una persona pueda aprobar o rechazar el contenido.
-
-Una vez recibida la decisión humana, un segundo escenario de Make procesa la respuesta:
-
-- Si el contenido es aprobado, se envía mediante Gmail y el registro se actualiza como `Publicado`.
-- Si el contenido es rechazado, se actualiza como `Rechazado` y Gmail no se ejecuta.
-
-La solución incorpora además:
-
-- Base de Conocimiento RAG.
-- Variables dinámicas.
-- Prevención de reprocesamiento.
-- Error Handlers.
-- Registro de errores.
-- Human-in-the-Loop.
-- Dashboard ejecutivo.
+- Make como orquestador;
+- Airtable como memoria y persistencia;
+- Claude Haiku 4.5 como motor de IA;
+- Base de Conocimiento RAG;
+- Human-in-the-Loop (HITL);
+- Router de decisión;
+- Gmail como canal de salida implementado;
+- Error Handlers;
+- Commit;
+- LOG de Errores;
+- prevención de loops;
+- Dashboard Ejecutivo;
 - Shared View pública.
-- Evidencias de pruebas.
-- Blueprints exportables de Make.
 
 ---
 
-# 2. Arquitectura general
+# 1. Objetivo del proyecto
 
-El ecosistema está dividido en dos escenarios principales.
+El sistema automatiza un pipeline de generación de contenido profesional.
 
-## Escenario 1 — Generación y solicitud de aprobación
+El proceso comienza con una Idea Semilla registrada en Airtable.
+
+Make detecta únicamente registros elegibles, recupera contexto desde una Base de Conocimiento RAG, genera un borrador mediante Claude y guarda el resultado nuevamente en Airtable.
+
+Antes de realizar una acción externa, el flujo crea una solicitud Human-in-the-Loop.
+
+Una persona debe decidir entre:
+
+- Approve
+- Reject
+
+La automatización continúa únicamente después de esa decisión.
+
+LinkedIn es el destino editorial del contenido.
+
+La implementación no publica directamente mediante la API de LinkedIn.
+
+La salida técnica implementada en este proyecto es Gmail.
+
+---
+
+# 2. Stack tecnológico
+
+| Componente | Tecnología | Función |
+|---|---|---|
+| Orquestador | Make | Coordinación del pipeline |
+| Base de datos | Airtable | Memoria, estados, RAG y errores |
+| IA | Claude Haiku 4.5 | Generación de borradores |
+| Contexto | RAG | Reglas y conocimiento validado |
+| Validación | Human-in-the-Loop | Aprobación o rechazo humano |
+| Decisión | Router de Make | Separación de rutas |
+| Salida | Gmail | Envío del contenido aprobado |
+| Monitoreo | Airtable Interface | Dashboard Ejecutivo |
+
+---
+
+# 3. Arquitectura del sistema
+
+La solución se divide en dos escenarios de Make.
+
+## Escenario 1 — Entrega Final - Pipeline HITL
 
 Flujo principal:
 
-`Airtable → Tools → RAG → Claude → Airtable → HITL`
+`Airtable → Variables → RAG → Agregación → Claude → Airtable → HITL`
 
-Proceso:
+Funciones principales:
 
-1. Airtable detecta un contenido a generar.
-2. Make almacena dinámicamente la Idea Semilla y el Record ID.
-3. Airtable consulta la Base de Conocimiento RAG.
-4. Make unifica el contexto recuperado.
-5. Claude genera el borrador de LinkedIn.
-6. Airtable guarda el borrador y cambia el estado a `En revisión`.
-7. HITL crea una solicitud de aprobación humana.
+1. detectar contenido a generar;
+2. guardar Idea Semilla;
+3. guardar Record ID;
+4. buscar contexto RAG;
+5. unificar contexto;
+6. recuperar variables;
+7. generar borrador con Claude;
+8. guardar borrador en Airtable;
+9. cambiar Estado a En revisión;
+10. solicitar aprobación humana mediante HITL.
 
-### Diagrama de arquitectura
+También incluye Error Handlers para:
 
-[Ver carpeta de diagramas](./diagramas/)
+- errores de Claude;
+- errores de Airtable;
+- registro en LOG de Errores;
+- notificación administrativa;
+- Commit para cierre controlado.
 
-[Escenario 1 — Arquitectura](./diagramas/Escenario_1_FINAL_PROFESIONAL.pdf)
+Diagramas oficiales:
+
+[Ver diagramas](./diagramas/)
+
+Blueprint:
+
+[Ver Blueprints](./blueprints/)
 
 ---
 
-## Escenario 2 — Resolución de la decisión humana
+## Escenario 2 — Entrega Final - HITL Aprobación
 
 Flujo principal:
 
 `HITL → Airtable → Router`
 
-### Si la respuesta es Aprobar
+### Rama Rechazar
 
-`Gmail → Airtable → Publicado`
+`Router → Airtable → Rechazado`
 
-### Si la respuesta es Rechazar
+### Rama Aprobar
 
-`Airtable → Rechazado`
+`Router → Gmail → Airtable → Publicado`
 
-La arquitectura garantiza que la acción final dependa de una decisión humana explícita.
+También incluye Error Handler para fallos de Gmail.
 
-[Escenario 2 — Arquitectura](./diagramas/Escenario_2_FINAL_PROFESIONAL.pdf)
+El error se registra en Airtable y en LOG de Errores antes del cierre mediante Commit.
+
+Diagramas oficiales:
+
+[Ver diagramas](./diagramas/)
+
+Blueprint:
+
+[Ver Blueprints](./blueprints/)
 
 ---
 
-# 3. Estructura de datos
+# 4. Trigger inteligente
 
-Airtable funciona como sistema de persistencia y control del ecosistema.
+El Escenario 1 utiliza una vista de Airtable denominada:
 
-La base contiene tres tablas principales.
+`Por Generar`
+
+Solo ingresan registros que cumplen simultáneamente:
+
+- Estado = Generando
+- Idea Semilla no está vacía
+
+Esto permite:
+
+- evitar datos incompletos;
+- reducir operaciones innecesarias;
+- impedir reprocesamiento del mismo contenido.
+
+---
+
+# 5. Variables dinámicas
+
+El flujo utiliza variables dinámicas provenientes de módulos anteriores.
+
+Entre ellas:
+
+- Idea Semilla;
+- Record ID;
+- contexto RAG;
+- Borrador IA;
+- respuesta HITL;
+- Estado;
+- fechas;
+- tipo de error;
+- mensaje de error;
+- contenido afectado.
+
+El Record ID permite mantener trazabilidad sobre el mismo registro durante toda la ejecución.
+
+---
+
+# 6. Base de Conocimiento RAG
+
+La Base de Conocimiento RAG almacena información validada utilizada por Claude.
+
+Incluye categorías como:
+
+- Tono de marca;
+- Audiencia;
+- Reglas de contenido;
+- Frases prohibidas;
+- Servicios.
+
+Make recupera únicamente registros activos mediante:
+
+`{Activo}=1`
+
+Luego agrega:
+
+- Tema;
+- Categoría;
+- Contenido validado.
+
+RAG no se utiliza únicamente como concepto teórico.
+
+Existe una recuperación real de conocimiento antes de cada generación mediante Claude.
+
+---
+
+# 7. Claude
+
+Modelo utilizado:
+
+`Claude Haiku 4.5`
+
+Configuración principal:
+
+`Max Tokens = 700`
+
+El prompt combina dinámicamente:
+
+- Idea Semilla;
+- Contexto RAG;
+- instrucciones de generación.
+
+Además, el prompt prohíbe inventar:
+
+- estadísticas;
+- cifras;
+- estudios;
+- fuentes;
+- clientes;
+- casos reales;
+- resultados cuantitativos;
+- afirmaciones verificables no proporcionadas.
+
+Esto funciona como control preventivo contra alucinaciones.
+
+---
+
+# 8. Human-in-the-Loop
+
+Antes de la acción externa, el sistema crea una solicitud HITL.
+
+Opciones:
+
+- Approve
+- Reject
+
+La solicitud conserva el Record ID del registro original.
+
+Configuración:
+
+- processingType: time-sensitive
+- timeout: 600 segundos
+- default response: Reject
+
+El sistema no ejecuta una acción crítica sin decisión humana.
+
+---
+
+# 9. Estructuras de datos
+
+Airtable contiene tres tablas principales.
 
 ## Control de Contenidos
 
 Tabla central del pipeline.
 
-Campos relevantes:
+Campos principales:
 
-- Idea Semilla
-- Borrador IA
-- Estado
-- Aprobado
-- Motivo Rechazo
-- Canal
-- Fecha última ejecución
-- Fecha publicación
-- Resultado final
-- Última modificación
-- Indicador Error
-- Indicador Éxito
-- relación con LOG de Errores
+- Idea Semilla;
+- Borrador IA;
+- Estado;
+- Aprobado;
+- Motivo Rechazo;
+- Canal;
+- Fecha última ejecución;
+- Fecha publicación;
+- Resultado final;
+- Última modificación;
+- Indicador Error;
+- Indicador Éxito;
+- relación con LOG de Errores.
 
-Estados utilizados:
+Estados disponibles:
+
+- Generando;
+- En revisión;
+- Aprobado;
+- Rechazado;
+- Publicado;
+- Error.
+
+El recorrido automatizado principal es:
 
 `Generando → En revisión → Publicado / Rechazado / Error`
 
@@ -121,550 +292,486 @@ Estados utilizados:
 
 ## Base de Conocimiento RAG
 
-Contiene información validada utilizada como contexto para Claude.
+Contiene el conocimiento validado utilizado durante la generación.
 
-Incluye:
+Campos principales:
 
-- tono;
-- audiencia;
-- reglas de contenido;
-- lineamientos de marca;
-- servicios o focos temáticos;
-- restricciones;
-- frases prohibidas.
-
-La relación entre esta tabla y el contenido es **lógica y funcional**.
-
-Make consulta la Base de Conocimiento RAG durante la ejecución y agrega dinámicamente la información antes de enviarla a Claude.
-
-No existe una relación Linked Record física entre RAG y Control de Contenidos.
+- Tema;
+- Categoria;
+- Contenido validado;
+- Activo;
+- Motivo Rechazo;
+- Ultima actualización.
 
 ---
 
 ## LOG de Errores
 
-Registra los incidentes producidos durante las ejecuciones.
+Registra incidencias técnicas.
 
 Campos principales:
 
-- Error ID
-- Fecha
-- Escenario
-- Módulo
-- Record ID
-- Tipo de error
-- Mensaje
-- Severidad
-- Resuelto
-- Contenido afectado
+- Error ID;
+- Fecha;
+- Escenario;
+- Módulo;
+- Record ID;
+- Tipo de error;
+- Mensaje;
+- Severidad;
+- Resuelto;
+- Contenido afectado.
 
-Existe una relación estructural:
+---
+
+# 10. Relación entre tablas
+
+La relación física mediante Linked Record existe entre:
 
 `Control de Contenidos ↔ LOG de Errores`
 
-Esto permite relacionar cada incidente con el contenido que lo produjo.
+La Base de Conocimiento RAG mantiene una relación lógica con el pipeline mediante Make:
+
+`RAG → Make → Claude → Control de Contenidos`
+
+El esquema fue analizado mediante Omni AI.
+
+Evidencias:
+
+- E16a
+- E16b
 
 ---
 
-# 4. Transferencia de datos y variables dinámicas
+# 11. JSON de transferencia
 
-El sistema utiliza variables dinámicas para evitar depender de valores cargados manualmente.
+Los intercambios principales se documentan mediante esquemas JSON normalizados.
 
-Entre los datos transferidos se encuentran:
-
-- Record ID de Airtable.
-- Idea Semilla.
-- Contexto RAG.
-- Borrador generado.
-- Respuesta HITL.
-- Estado del contenido.
-- Resultado final.
-
-Ejemplo conceptual del contexto transferido a HITL:
+## Entrada hacia Claude
 
 ```json
 {
-  "airtable_record_id": "{{Record ID dinámico}}"
+  "record_id": "{{record_id}}",
+  "idea_semilla": "{{idea_semilla}}",
+  "contexto_rag": "{{contexto_agregado}}"
 }
-```
 
-Ejemplo conceptual de una respuesta aprobada:
-
-```json
+Salida de Claude hacia Airtable
 {
-  "response_data": "aprobar",
+  "record_id": "{{record_id}}",
+  "borrador_ia": "{{resultado_claude}}",
+  "estado": "En revisión",
+  "fecha_ultima_ejecucion": "{{now}}"
+}
+
+Contexto HITL
+{
+  "airtable_record_id": "{{record_id}}"
+}
+
+Respuesta HITL
+{
+  "response_data": "aprobar | rechazar",
   "context": {
-    "airtable_record_id": "ID del registro"
+    "airtable_record_id": "recXXXXXXXXXXXX"
   }
 }
-```
 
-Ejemplo conceptual de una respuesta rechazada:
-
-```json
+Actualización por aprobación
 {
-  "response_data": "rechazar",
-  "context": {
-    "airtable_record_id": "ID del registro"
-  }
+  "record_id": "{{context.airtable_record_id}}",
+  "estado": "Publicado",
+  "aprobado": true,
+  "canal": "{{canal}}",
+  "fecha_ultima_ejecucion": "{{now}}",
+  "fecha_publicacion": "{{now}}",
+  "resultado_final": "{{borrador_ia}}"
 }
-```
 
-De esta manera, el segundo escenario puede recuperar exactamente el registro asociado con la solicitud humana.
-
----
-
-# 5. Optimización de costos y recursos
-
-La estrategia de optimización se basa en utilizar IA solamente cuando existe una necesidad real de interpretación o generación.
-
-Operaciones como filtros, almacenamiento de IDs, fechas, cambios de estado y registro de errores son realizadas directamente mediante Make y Airtable.
-
-| Tipo de tarea | Herramienta / estrategia | Decisión |
-|---|---|---|
-| Filtros, IDs, fechas y estados | Make + Airtable | No requieren LLM |
-| Tareas simples o repetitivas | Modelo económico como GPT-4o-mini | Estrategia prevista para tareas de baja complejidad |
-| Generación con contexto RAG | Claude Haiku 4.5 | Implementado |
-| Lectura/contexto extenso | Claude | Adecuado para escenarios de mayor densidad contextual |
-| Procesamiento masivo no urgente | Message Batches | Estrategia de escalabilidad |
-| Contexto estático repetitivo | Prompt Caching | Estrategia de escalabilidad |
-
-## Decisión aplicada al proyecto
-
-En el flujo actual, **Claude Haiku 4.5** se utiliza exclusivamente para la generación del borrador.
-
-El modelo recibe dinámicamente:
-
-- Idea Semilla.
-- Contexto recuperado desde RAG.
-- Reglas de generación.
-
-El módulo posee además un límite aproximado de **700 tokens de salida**, evitando generaciones innecesariamente extensas.
-
-## Message Batches
-
-Para un escenario futuro con cientos o miles de generaciones no urgentes, podría utilizarse Message Batches para realizar procesamiento asíncrono a menor costo.
-
-No se implementa actualmente porque el flujo es interactivo y depende de una instancia de aprobación humana.
-
-## Prompt Caching
-
-Si la Base de Conocimiento RAG aumentara considerablemente y se reutilizara el mismo contexto estático en muchas solicitudes, Prompt Caching podría evitar el reprocesamiento repetitivo de ese contenido.
-
-Se documenta como estrategia futura de escalabilidad y no como una funcionalidad implementada actualmente.
-
----
-
-# 6. Seguridad, privacidad y resiliencia
-
-## Minimización de datos
-
-El flujo procesa solamente los datos necesarios para identificar, generar y gestionar cada contenido.
-
-Las credenciales y API Keys no se encuentran expuestas en:
-
-- el repositorio;
-- los diagramas;
-- las evidencias;
-- el video demostrativo.
-
-Las conexiones se administran desde Make.
-
----
-
-## Human-in-the-Loop
-
-La principal medida de control antes de una acción crítica es el HITL.
-
-Claude puede generar el contenido, pero el sistema **no ejecuta directamente la acción final**.
-
-Primero se crea una solicitud de aprobación donde una persona debe seleccionar:
-
-- `Approve`
-- `Reject`
-
-Solo después de esta decisión continúa el proceso.
-
----
-
-## Manejo de errores
-
-Se implementaron Error Handlers en puntos críticos.
-
-### Error de Claude
-
-`Claude → Registrar error → LOG → Notificación Gmail → Commit`
-
-### Error al guardar en Airtable
-
-`Airtable → LOG → Notificación Gmail → Commit`
-
-### Error de Gmail
-
-`Gmail → Registrar error de envío → LOG → Commit`
-
-No se utiliza Gmail para intentar enviar una segunda notificación cuando el propio servicio Gmail es el componente que produjo el error.
-
-Los nodos Commit permiten finalizar la ejecución afectada de manera controlada después de registrar el incidente.
-
----
-
-# 7. Prevención de loops y reprocesamiento
-
-El trigger principal utiliza la vista:
-
-`Por Generar`
-
-Sus condiciones son:
-
-- `Estado = Generando`
-- `Idea Semilla` no está vacía.
-
-Cuando el registro avanza en el proceso, su estado cambia y deja de cumplir la condición de entrada.
-
-La prevención de loops fue validada mediante dos ejecuciones consecutivas.
-
-En la primera ejecución, el registro fue procesado normalmente.
-
-En la segunda ejecución, Make devolvió:
-
-`No bundles were generated by this operation`
-
-Esto demuestra que el mismo registro no volvió a ser procesado.
-
-Las evidencias correspondientes son:
-
-- `E13_AntiLoop_Primera_Ejecucion`
-- `E14_AntiLoop_Segunda_Ejecucion_Sin_Bundles`
-
----
-
-# 8. Pruebas realizadas
-
-Se realizaron cinco pruebas funcionales principales.
-
-## Test 1 — Camino feliz
-
-Registro válido en estado `Generando`.
-
-Resultado:
-
-`Generación → HITL → Approve → Gmail → Publicado`
-
-**Resultado: exitoso.**
-
----
-
-## Test 2 — Rechazo humano
-
-Se seleccionó `Reject` en HITL.
-
-Resultado:
-
-- rama Reject ejecutada;
-- Gmail no ejecutado;
-- registro actualizado como `Rechazado`.
-
-**Resultado: exitoso.**
-
----
-
-## Test 3 — Datos incompletos
-
-Se utilizó un registro con:
-
-- Estado = `Generando`
-- Idea Semilla vacía.
-
-El filtro `Por Generar` impidió que ingresara al escenario.
-
-**Resultado: exitoso.**
-
----
-
-## Test 4 — Manejo de error
-
-Durante las pruebas se produjo un error real:
-
-`404 — NOT_FOUND`
-
-El incidente quedó registrado en la tabla `LOG de Errores`, incluyendo información del error y el contenido afectado.
-
-**Resultado: registro de incidente verificado.**
-
----
-
-## Test 5 — Anti-loop
-
-Se realizaron dos ejecuciones consecutivas sin volver a modificar el registro.
-
-La segunda ejecución devolvió:
-
-`No bundles were generated by this operation`
-
-**Resultado: reprocesamiento evitado.**
-
----
-
-# 9. Dashboard Ejecutivo
-
-El proyecto cuenta con un Dashboard Ejecutivo en Airtable.
-
-Indicadores registrados durante la documentación:
-
-- Total de contenidos: **13**
-- Publicados: **3**
-- Rechazados: **3**
-- En revisión: **3**
-- Tasa de éxito: **23,1 %**
-- Tasa de error: **7,7 %**
-
-También se incluye una visualización de distribución de contenidos por estado.
-
----
-
-# 10. Dashboard / Shared View pública
-
-La información de monitoreo puede consultarse mediante una vista pública de Airtable en modo lectura.
-
-### Acceso público
-
-https://airtable.com/appE2ti2m7OuckfQ0/shrkquKwRuhnPU9I1
-
-Esta vista permite inspeccionar el estado de los registros sin otorgar acceso de edición a la base.
-
----
-
-# 11. Video demostrativo
-
-El video demuestra el funcionamiento end-to-end del ecosistema.
-
-Incluye:
-
-- registro inicial en Airtable;
-- trigger del Escenario 1;
-- recuperación del contexto RAG;
-- generación del borrador con Claude;
-- actualización a `En revisión`;
-- creación de solicitud HITL;
-- aprobación humana;
-- procesamiento de la respuesta en el Escenario 2;
-- Router de decisión;
-- envío mediante Gmail;
-- actualización a `Publicado`;
-- visualización del sistema de monitoreo.
-
-La prueba específica de prevención de loops se encuentra documentada mediante evidencias independientes dentro del repositorio.
-
-### Video de demostración
-
-[▶ Ver video demostrativo en Google Drive](https://drive.google.com/file/d/1JQm1HIwfARJNoBBY6tUheFoC8ZpGZBKX/view?usp=drive_link)
-
----
-
-# 12. Evidencias
-
-Las capturas utilizadas para demostrar las pruebas y configuraciones se encuentran en:
-
-### [Ver carpeta `/evidencias`](./evidencias/)
-
-Incluyen evidencia de:
-
-- filtro inteligente del trigger;
-- datos incompletos;
-- ejecución dinámica;
-- Escenario 1;
-- Error Handlers;
-- error real 404;
-- generación exitosa;
-- solicitud HITL;
-- aprobación;
-- publicación;
-- rechazo;
-- prevención de loops;
-- Dashboard;
-- estructura relacional;
-- Shared View pública;
-- Escenario 2.
-
-Los archivos están identificados mediante nomenclatura correlativa `E01` a `E18`.
-
----
-
-# 13. Blueprints de Make
-
-Los escenarios exportados desde Make se encuentran disponibles en:
-
-### [Ver carpeta `/blueprints`](./blueprints/)
-
-Archivos:
-
-- `Entrega Final - Pipeline HITL.blueprint.json`
-- `Entrega Final - HITL Aprobación.blueprint.json`
-
-Estos archivos permiten inspeccionar e importar la configuración técnica de ambos escenarios.
-
----
-
-# 14. Diagramas de arquitectura
-
-Los diagramas exportados en PDF están disponibles en:
-
-### [Ver carpeta `/diagramas`](./diagramas/)
-
-Incluyen:
-
-- Escenario 1 — Generación, RAG y HITL.
-- Escenario 2 — Resolución HITL y salida final.
-
----
-
-# 15. Documentación final
-
-La documentación completa del proyecto incluye:
-
-- descripción del caso de uso;
-- arquitectura;
-- estructuras de datos;
-- esquemas JSON;
-- optimización de costos;
-- seguridad;
-- Error Handlers;
-- HITL;
-- prevención de loops;
-- pruebas;
-- Dashboard;
-- evidencias;
-- enlaces públicos.
-
-### Documento final
-
-[Ver documentación final en PDF](./documentacion/Entrega_Final_Ecosistema_Automatizacion_IA.pdf)
-
----
-
-# 16. Estructura del repositorio
-
-```text
-ecosistema-automatizacion-ia-julietacanziootero/
-│
-├── README.md
-│
-├── blueprints/
-│   ├── Entrega Final - Pipeline HITL.blueprint.json
-│   └── Entrega Final - HITL Aprobación.blueprint.json
-│
-├── diagramas/
-│   ├── Escenario_1_FINAL_PROFESIONAL.pdf
-│   └── Escenario_2_FINAL_PROFESIONAL.pdf
-│
-├── evidencias/
-│   ├── E01...
-│   ├── E02...
-│   ├── ...
-│   └── E18...
-│
-└── documentacion/
-    └── Entrega_Final_Ecosistema_Automatizacion_IA.pdf
-```
-
----
-
-# 17. Entregables
-
-| Entregable | Ubicación |
-|---|---|
-| Repositorio GitHub | Este repositorio |
-| Arquitectura Escenario 1 | `/diagramas` |
-| Arquitectura Escenario 2 | `/diagramas` |
-| Blueprint Escenario 1 | `/blueprints` |
-| Blueprint Escenario 2 | `/blueprints` |
-| Evidencias | `/evidencias` |
-| Documento final | `/documentacion` |
-| Base pública Airtable | Link incluido en este README |
-| Dashboard | Airtable + evidencia E15 |
-| Video demostrativo | Google Drive |
-
----
-
-# 18. Correspondencia con los criterios de evaluación
-
-## 1. Mapa de Arquitectura
-
-Se documentan ambos escenarios con:
-
-- triggers;
-- módulos;
-- RAG;
-- Claude;
-- HITL;
-- Router;
-- Gmail;
-- rutas de error;
-- capa de datos y monitoreo.
-
-**Evidencia:** carpeta `/diagramas`.
-
-## 2. Estructuras de datos documentadas
-
-Se documentan:
-
-- Control de Contenidos;
-- Base de Conocimiento RAG;
-- LOG de Errores;
-- relación estructural Control ↔ LOG;
-- integración lógica con RAG;
-- estructuras JSON de transferencia.
-
-## 3. Optimización de costos y recursos
-
-Se incluye:
-
-- utilización de herramientas sin LLM para tareas mecánicas;
-- Claude Haiku 4.5 para generación contextual;
-- límite de tokens;
-- criterio de uso de modelos económicos;
-- estrategia Message Batches para procesamiento masivo;
-- estrategia Prompt Caching para contexto repetitivo.
-
-## 4. Seguridad, privacidad y resiliencia
-
-Se implementan y documentan:
-
+Actualización por rechazo
+{
+  "record_id": "{{context.airtable_record_id}}",
+  "estado": "Rechazado",
+  "aprobado": false,
+  "fecha_ultima_ejecucion": "{{now}}",
+  "resultado_final": "Rechazado por validación humana"
+}
+
+Registro normalizado de error
+{
+  "error_id": "ERR-[ORIGEN]-{{record_id}}",
+  "fecha": "{{now}}",
+  "escenario": "{{nombre_escenario}}",
+  "modulo": "{{modulo_origen}}",
+  "record_id": "{{record_id}}",
+  "tipo_error": "{{error.type}}",
+  "mensaje": "{{error.message}}",
+  "severidad": "Alta",
+  "resuelto": false,
+  "contenido_afectado": "{{record_id}}"
+}
+
+12. Optimización de costos y recursos
+La estrategia utiliza IA únicamente cuando aporta valor.
+Make y Airtable resuelven:
+- filtros;
+- IDs;
+- fechas;
+- estados;
+- persistencia;
+- rutas.
+Claude se utiliza para generación contextual.
+Matriz de decisión
+Tipo de tarea	Herramienta	Estado
+Filtros, IDs, fechas y estados	Make + Airtable	Implementado
+Generación con contexto RAG	Claude Haiku 4.5	Implementado
+Tareas simples de texto	Modelo económico	Estrategia futura
+Procesamiento masivo no urgente	Message Batches	Estrategia futura
+Contexto repetitivo	Prompt Caching	Estrategia futura
+
+
+13. Message Batches
+Message Batches se define como estrategia futura para generación masiva no urgente.
+El procesamiento por lotes permite reducir el costo relativo al:
+50% del costo equivalente en tiempo real
+Modelo:
+Costo normal = C
+Costo con Batches = 0,5 × C
+Ahorro = 50%
+No se implementa actualmente dentro del pipeline HITL interactivo.
+14. Prompt Caching
+Prompt Caching se documenta como estrategia complementaria futura.
+Su objetivo sería reducir el costo de lectura de instrucciones o contexto estático repetido.
+No está implementado en el flujo actual.
+15. Seguridad, privacidad y resiliencia
+La arquitectura incorpora:
 - minimización de datos;
-- ocultamiento de credenciales;
+- variables dinámicas;
+- control de alucinaciones;
 - Human-in-the-Loop;
 - Error Handlers;
 - LOG de Errores;
 - Commit;
 - prevención de loops.
+16. Minimización de datos
+Los módulos transfieren únicamente la información necesaria para ejecutar cada etapa.
+Entre escenarios se prioriza el uso del Record ID de Airtable en lugar de replicar objetos completos.
+Claude recibe:
+- Idea Semilla;
+- contexto RAG;
+- instrucciones necesarias para la generación.
+Las credenciales se mantienen dentro de las conexiones de Make y no se exponen en documentación ni video.
+17. Control de alucinaciones
+El prompt restringe explícitamente la generación de información verificable no proporcionada.
+Además, el contenido no continúa automáticamente hacia una acción externa.
+Se aplican dos controles consecutivos:
+restricciones del prompt → validación humana HITL
+18. Error Handlers
+Claude
+Ante un fallo de generación:
+- el contenido pasa a Error;
+- se registra la incidencia;
+- se conserva el Record ID;
+- se registra el error en LOG;
+- se genera alerta administrativa;
+- la ejecución finaliza mediante Commit.
+Airtable
+Ante un fallo de persistencia:
+- se registra el error técnico;
+- se conserva el Record ID;
+- se crea incidencia en LOG;
+- se genera alerta;
+- la ejecución finaliza mediante Commit.
+Gmail
+Ante un fallo de envío:
+- Estado = Error;
+- Resultado final = Error en envío Gmail;
+- se registra incidencia en LOG;
+- la ejecución finaliza mediante Commit.
+19. Commit
+Commit permite cerrar de forma controlada una ejecución afectada por un error.
+No significa que el escenario quede deshabilitado.
+Su objetivo es evitar que una ejecución fallida continúe por una ruta de éxito después de registrar la contingencia.
+20. Evidencias reales de resiliencia
+Se registró un error real:
+RuntimeError — [404] NOT_FOUND
+La incidencia quedó persistida en LOG de Errores.
+También se realizó una prueba real de fallo en Gmail.
+El sistema:
+- cambió el Estado a Error;
+- registró Error en envío Gmail;
+- creó un identificador ERR-GMAIL;
+- vinculó el error con el contenido afectado.
+21. Prevención de loops
+La vista Por Generar impide reprocesar registros cuyo Estado ya cambió.
+La prueba se realizó mediante dos ejecuciones consecutivas.
+Primera ejecución:
+el registro fue procesado.
+Segunda ejecución:
+Make devolvió:
+No bundles were generated by this operation
+Evidencias:
+- E13
+- E14
+22. Validación de tipos de datos
+El flujo distingue explícitamente los tipos principales utilizados.
+- Aprobado: booleano.
+- Estado: selección.
+- response_data: texto.
+- fechas: valores temporales.
+- Record ID: identificador de Airtable.
+Esto evita comparaciones ambiguas entre tipos de datos.
+23. Pruebas realizadas
+Se documentaron cinco pruebas principales y una prueba complementaria de resiliencia.
+Test 1 — Camino feliz
+Recorrido:
+Generando → RAG → Claude → En revisión → HITL → Approve → Gmail → Publicado
+Resultado:
+Exitoso.
+Evidencias:
+- E07
+- E08
+- E09
+- E10
+Test 2 — Rechazo humano
+HITL = Reject.
+Resultado:
+- Estado = Rechazado;
+- Aprobado = No;
+- Gmail no se ejecuta.
+Evidencias:
+- E11
+- E12
+Test 3 — Datos incompletos
+Condición:
+- Estado = Generando;
+- Idea Semilla vacía.
+Resultado:
+el registro queda excluido por la vista Por Generar.
+Evidencias:
+- E01
+- E02
+Test 4 — Error real
+Error:
+RuntimeError — [404] NOT_FOUND
+Resultado:
+incidencia registrada en LOG de Errores.
+Evidencia:
+- E06
+Test 5 — Anti-loop
+Segunda ejecución consecutiva:
+No bundles were generated by this operation
+Evidencias:
+- E13
+- E14
+Prueba complementaria — Error de Gmail
+Resultado:
+- Estado = Error;
+- Resultado final = Error en envío Gmail;
+- creación de registro en LOG de Errores;
+- cierre mediante Commit.
+24. Dashboard Ejecutivo
+Valores actuales documentados:
+- Total de contenidos: 14
+- Publicados: 4
+- Rechazados: 3
+- En revisión: 3
+- Tasa de éxito: 28,6%
+- Tasa de error: 7,1%
+Evidencia:
+- E15
+Los valores son dinámicos y pueden cambiar con nuevas ejecuciones.
+25. Shared View pública
+La Shared View permite verificar registros y estados sin permisos de edición.
+Enlace:
+https://airtable.com/appE2ti2m7OuckfQ0/shrkquKwRuhnPU9I1
+Evidencia:
+- E17
+26. Video demostrativo
+Video:
+https://drive.google.com/file/d/1JQm1HIwfARJNoBBY6tUheFoC8ZpGZBKX/view?usp=drive_link
+El video muestra:
+- entrada en Airtable;
+- Escenario 1;
+- consulta RAG;
+- generación mediante Claude;
+- Estado En revisión;
+- solicitud HITL;
+- aprobación;
+- Escenario 2;
+- Router;
+- Gmail;
+- actualización final en Airtable.
+La prueba anti-loop se documenta de forma separada mediante E13 y E14.
+Las credenciales no se muestran.
+27. Instrucciones de ejecución
+Escenario 1
+1. Crear o seleccionar un registro en Control de Contenidos.
+2. Completar Idea Semilla.
+3. Establecer Estado = Generando.
+4. Ejecutar Entrega Final - Pipeline HITL.
+5. Verificar consulta RAG.
+6. Verificar generación con Claude.
+7. Confirmar Estado = En revisión.
+8. Verificar solicitud HITL.
+Escenario 2
+1. Ejecutar Entrega Final - HITL Aprobación en modo de escucha.
+2. Responder HITL con Approve o Reject.
+3. Si se aprueba, verificar Gmail y Estado = Publicado.
+4. Si se rechaza, verificar Estado = Rechazado.
+5. Ante un fallo, verificar Estado = Error y LOG de Errores.
+28. Evidencias verificables
+Todas las evidencias se encuentran en:
+[Carpeta de evidencias](./evidencias/)
+E01 — Registro con datos incompletos
+Demuestra el camino infeliz con Idea Semilla incompleta.
+E02 — Vista Por Generar
+Demuestra las condiciones:
+- Estado = Generando
+- Idea Semilla no vacía
+E03 — Trigger dinámico
+Demuestra la configuración del trigger de Airtable en Make.
+E04 — Escenario 1 completo
+Vista general de Entrega Final - Pipeline HITL.
+E05 — Error Handlers Escenario 1
+Demuestra las rutas de contingencia de Claude y Airtable.
+E06 — Error real 404
+Demuestra el registro de:
+RuntimeError — [404] NOT_FOUND
+E07 — Ejecución exitosa
+Demuestra generación y actualización exitosa del contenido.
+E08 — Solicitud HITL
+Demuestra la pausa antes de la acción externa.
+E09 — Aprobación
+Demuestra la ejecución de la ruta Approve.
+E10 — Contenido publicado
+Demuestra la actualización final del registro.
+E11 — Rechazo HITL
+Demuestra la ejecución de la ruta Reject.
+E12 — Contenido rechazado
+Demuestra Estado = Rechazado.
+E13 — Anti-loop primera ejecución
+Demuestra el procesamiento inicial.
+E14 — Anti-loop segunda ejecución
+Demuestra:
+No bundles were generated by this operation
+E15 — Dashboard Ejecutivo
+Demuestra los KPIs internos del sistema.
+E16a / E16b — Omni AI
+Demuestran el análisis del esquema de Airtable.
+E17 — Shared View pública
+Demuestra la vista pública de solo lectura.
+E18 — Escenario 2 completo
+Vista general de Entrega Final - HITL Aprobación.
+29. Archivos técnicos
+Blueprints
+[Ver Blueprints](./blueprints/)
+Incluyen:
+- Entrega Final - Pipeline HITL.blueprint.json
+- Entrega Final - HITL Aprobación.blueprint.json
+Los Blueprints permiten revisar:
+- módulos;
+- filtros;
+- mapeos;
+- prompts;
+- variables;
+- Router;
+- Error Handlers;
+- Commit;
+- rutas;
+- configuración técnica.
+Diagramas oficiales
+[Ver diagramas](./diagramas/)
+La carpeta contiene los dos flujos oficiales utilizados en la documentación final.
+Documentación final
+[Ver documentación](./documentación/)
+Contiene el PDF final de la Entrega Final.
+30. Matriz de cumplimiento de la rúbrica
+Criterio	Implementación	Evidencia verificable	Cómo verificar
+Mapa de Arquitectura del Sistema	Dos escenarios Make con trigger, Claude, Airtable, HITL, Router, Gmail y rutas de error	Diagramas oficiales + E04 + E05 + E18 + Blueprints	Revisar /diagramas, /blueprints y evidencias
+Manual Operativo de Estructuras de Datos	Control de Contenidos + Base RAG + LOG + JSON + análisis Omni AI	E16a / E16b + documentación	Revisar estructura de Airtable y esquemas JSON
+Optimización de Costos y Recursos	Claude Haiku 4.5 + criterio de modelo económico + Message Batches + 50% de ahorro + Prompt Caching	Secciones de costos del PDF	Revisar documentación final
+Seguridad, Privacidad y Resiliencia	Minimización + control de alucinaciones + HITL + Error Handlers + LOG + Commit + anti-loop	E05 + E06 + E08 + E13 + E14 + prueba Gmail	Revisar Blueprints y evidencias
+Dashboard Ejecutivo	KPIs + Airtable Interface + Shared View pública	E15 + E17 + enlace público	Abrir Airtable y contrastar KPIs
 
-## 5. Dashboard de Control Ejecutivo
 
-Se incluye:
+31. Verificación de requisitos técnicos
+Requisito	Estado
+Orquestador Make	Implementado
+Base Airtable	Implementado
+IA Claude	Implementado
+RAG	Implementado
+Gmail	Implementado
+HITL	Implementado
+Router	Implementado
+Error Handlers	Implementados
+LOG de Errores	Implementado
+Commit	Implementado
+Variables dinámicas	Implementadas
+Max Tokens = 700	Configurado
+Filtro anti-loop	Implementado y probado
+Validación de tipos	Implementada
+5 pruebas	Documentadas
+Camino infeliz	Probado
+Blueprints	Incluidos
+Diagramas PDF	Incluidos
+Evidencias E01–E18	Incluidas
+Dashboard Ejecutivo	Implementado
+Shared View pública	Operativa
+Video demo	Incluido
 
-- Dashboard Ejecutivo;
-- KPIs;
-- indicadores de éxito y error;
-- distribución de estados;
-- Shared View pública.
 
----
+32. Estructura del repositorio
+/
+├── README.md
+├── blueprints/
+│   ├── README.md
+│   ├── Entrega Final - Pipeline HITL.blueprint.json
+│   └── Entrega Final - HITL Aprobación.blueprint.json
+├── diagramas/
+│   ├── README.md
+│   ├── Escenario 1 - Entrega Final 26-09-26.drawio pdf git hub.pdf
+│   └── Escenario 2 - Entrega Final 26-09-26.drawio pdf git hub.pdf
+├── documentación/
+│   ├── README.md
+│   └── PDF final de la entrega
+└── evidencias/
+    ├── README.md
+    └── E01 ... E18
 
-# 19. Tecnologías utilizadas
-
-- **Make**
-- **Airtable**
-- **Anthropic Claude**
-- **Human-in-the-Loop**
-- **Gmail**
-- **Google Drive**
-- **GitHub**
-
----
-
-# 20. Resultado final
-
-El proyecto implementa un flujo automatizado de extremo a extremo en el que la IA participa como motor de generación, mientras que Make controla la orquestación, Airtable mantiene la trazabilidad y el estado del sistema, y HITL conserva la intervención humana antes de ejecutar una acción crítica.
-
-La arquitectura incorpora además mecanismos de resiliencia, registro de errores, prevención de reprocesamiento, optimización de recursos y monitoreo mediante indicadores ejecutivos.
+Cada carpeta contiene su propio README con información específica para facilitar la auditoría.
+33. Alcance final
+Implementado
+- Make;
+- Airtable;
+- Claude;
+- RAG;
+- Gmail;
+- HITL;
+- Router;
+- Error Handlers;
+- LOG de Errores;
+- Commit;
+- variables dinámicas;
+- anti-loop;
+- cinco pruebas;
+- Dashboard;
+- Shared View;
+- Blueprints;
+- diagramas;
+- evidencias.
+Estrategias futuras
+- Message Batches;
+- Prompt Caching;
+- modelos económicos para tareas simples.
+No implementado
+- publicación directa mediante API de LinkedIn.
+LinkedIn se utiliza como destino editorial del contenido generado.
+Gmail es el canal técnico de salida implementado.
+34. Enlaces públicos
+Shared View pública de Airtable
+https://airtable.com/appE2ti2m7OuckfQ0/shrkquKwRuhnPU9I1
+Video demostrativo
+https://drive.google.com/file/d/1JQm1HIwfARJNoBBY6tUheFoC8ZpGZBKX/view?usp=drive_link
+Repositorio
+https://github.com/julican95-hub/ecosistema-automatizacion-ia-julietacanziootero
