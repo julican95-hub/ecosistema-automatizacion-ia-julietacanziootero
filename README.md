@@ -1001,7 +1001,7 @@ Demuestra:
 
 Demuestra los KPIs internos del sistema.
 
-## E16a / E16b — Omni AI
+## E16 1 / E16 2/ E16 3/ E16 4 — Omni AI
 
 Demuestran el análisis del esquema de Airtable.
 
